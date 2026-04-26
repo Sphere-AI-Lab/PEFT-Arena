@@ -344,6 +344,16 @@ a:hover {
   box-shadow: 0 20px 38px rgba(16, 37, 66, 0.16);
 }
 
+.paper-poster-card-disabled {
+  cursor: default;
+}
+
+.paper-poster-card-disabled:hover {
+  transform: none;
+  border-color: rgba(216, 207, 191, 0.92);
+  box-shadow: var(--shadow);
+}
+
 .paper-poster-label {
   margin-bottom: 0.8rem;
   color: var(--navy);
@@ -351,6 +361,14 @@ a:hover {
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+}
+
+.paper-poster-note {
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
 }
 
 .paper-poster-preview {
