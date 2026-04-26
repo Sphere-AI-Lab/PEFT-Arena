@@ -1,0 +1,142 @@
+# Format checks enforced on CI:
+# 1. Comments must appear above each field.
+# 2. There must be a blank line between each field.
+# 3. Inline comments (after a field on the same line) are not allowed.
+# 4. Indentation level is respected for nested fields.
+
+_target_: peft_arena_verl.workers.config.HFModelConfig
+
+# path to the huggingface model
+path: ~/models/deepseek-llm-7b-chat
+
+# config to the huggingface config. In case it is not the same as path
+hf_config_path: null
+
+# path to the huggingface tokenizer. In case it is not the same as path
+tokenizer_path: null
+
+# whether to use shared memory for model loading
+use_shm: False
+
+# whether to trust remote code.
+trust_remote_code: False
+
+# custom chat template for the model
+custom_chat_template: null
+
+# whether to use external libs for the model
+external_lib: null
+
+# override hf config
+override_config: {}
+
+# whether to enable gradient checkpointing. Only valid when we use hf model definition
+enable_gradient_checkpointing: True
+
+# whether to enable activation offload. Only valid when we use hf model definition
+enable_activation_offload: False
+
+# whether to enable input grads before wrapping with PEFT
+enable_input_require_grads: False
+
+# whether to use reentrant gradient checkpointing
+use_reentrant: False
+
+# whether to use remove padding. Only valid when we use hf model definition
+use_remove_padding: True
+
+# Set to positive value to enable LoRA (e.g., 32)
+lora_rank: 0
+
+# LoRA scaling factor
+lora_alpha: 16
+
+# LoRA dropout
+lora_dropout: 0.05
+
+# Whether to initialize LoRA weights instead of loading from a PEFT init checkpoint
+init_lora_weights: True
+
+# Optional PEFT initialization checkpoint used by PiSSA / MiLoRA / OFT init flows
+peft_adapter_path: null
+
+# Set to positive value to enable OFT
+oft_block_size: 0
+
+# Block partition strategy for OFT
+block_partition_method: index
+
+# Block ratio for OFT
+block_ratio: 1.0
+
+# Whether to enable DOFT behavior
+use_doft: False
+
+# Whether to enable DoRA on top of LoRA
+use_dora: False
+
+# Whether to enable RsLoRA
+use_rslora: False
+
+# Whether to enable QaLoRA
+use_qalora: False
+
+# LoRA family selector: adalora / vera / ia3 / loraplus / miss / keeplora
+lora_variant: null
+
+# Total steps for AdaLoRA; if 0 the trainer will infer it from the dataloader
+adalora_total_steps: 0
+
+# Principal subspace rank used by the SFT-only KeepLoRA initialization; if 0 defaults to 4 * lora_rank
+keeplora_principal_rank: 0
+
+# Target modules for LoRA adaptation
+target_modules: all-linear
+
+# Exclude modules from LoRA adaptation
+exclude_modules: null
+
+# Path to pre-trained LoRA adapter to load for continued training
+lora_adapter_path: null
+
+# whether to use liger. Only valid when we use hf model definition
+use_liger: False
+
+# whether to use fused kernels.
+use_fused_kernels: False
+
+# fused kernel options.
+fused_kernel_options:
+
+  # the implementation backend for fused kernels.
+  impl_backend: torch
+
+# TiledMLP configuration for memory-efficient MLP computation.
+# Reduces peak memory by processing MLP forward/backward in tiles.
+tiled_mlp:
+
+  # whether to enable TiledMLP
+  enabled: False
+
+  # number of shards to split the input. Higher values reduce peak memory but may slightly impact performance.
+  num_shards: 4
+
+# MTP
+mtp:
+
+  _target_: peft_arena_verl.workers.config.MtpConfig
+
+  enable: False
+  enable_train: False
+  enable_rollout: False
+
+  detach_encoder: False
+  mtp_loss_scaling_factor: 0.1
+
+  speculative_algorithm: EAGLE
+  speculative_num_steps: 3
+  speculative_eagle_topk: 1
+  speculative_num_draft_tokens: 4
+
+  method: mtp
+  num_speculative_tokens: 1

@@ -1,0 +1,24 @@
+# PEFTArena
+.venv/
+analysis/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.eggs/
+dist/
+build/
+*.log
+results/
+outputs/
+checkpoints/
+.tmp/
+wandb/
+*.csv
+!configs/**/*.yaml
+conda_env/
+data/*
+condor_scripts/*
+logs/*
+.cache*
+third_party/human-eval/

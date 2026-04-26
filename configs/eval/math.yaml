@@ -1,0 +1,17 @@
+# =============================================================================
+# PEFTArena Eval Config: Math Evaluation
+# =============================================================================
+# Usage:
+#   python run.py eval --domain math --checkpoint_path <path>
+
+evaluation:
+  domain: math
+  num_gpus: 1
+
+  # Math-specific settings
+  data_names: gsm8k,math,minerva_math,gaokao2023en,olympiadbench,college_math,aime24,amc23
+  prompt_type: cot
+  temperature: 0
+  seed: 0
+  use_vllm: true
+  apply_chat_template: true

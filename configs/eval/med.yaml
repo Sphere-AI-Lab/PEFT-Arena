@@ -1,0 +1,17 @@
+# =============================================================================
+# PEFTArena Eval Config: Medical Evaluation
+# =============================================================================
+# Usage:
+#   python run.py eval --domain med --checkpoint_path <path>
+
+evaluation:
+  domain: med
+  num_gpus: 1
+
+  # Med-specific settings
+  tasks: medmcqa,medqa,mmlu_medical,pubmedqa
+  template: mcqa_with_options
+  batch_size: 2
+  num_fewshot: 0
+  seed: 42
+  use_device_map: true

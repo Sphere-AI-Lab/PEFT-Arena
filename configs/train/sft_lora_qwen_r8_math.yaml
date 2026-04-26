@@ -1,0 +1,42 @@
+# =============================================================================
+# PEFTArena Example Config: SFT + LoRA on Qwen2.5-7B (Math domain)
+# =============================================================================
+# Usage:
+#   python run.py train sft \
+#       --model Qwen/Qwen2.5-7B \
+#       --adapter lora \
+#       --lora_rank 8 --lora_alpha 16 \
+#       --data_train data/openr1-train.parquet \
+#       --data_val data/math500-test.parquet \
+#       --lr 2e-4 --epochs 4 \
+#       --output_dir checkpoints/sft-lora-qwen-r8
+
+model:
+  name: Qwen/Qwen2.5-7B
+  dtype: bf16
+
+adapter:
+  type: lora
+  rank: 8
+  alpha: 16
+  dropout: 0.05
+
+training:
+  type: sft
+  lr: 2e-4
+  batch_size: 256
+  max_length: 8192
+  micro_batch_size_per_gpu: 2
+  epochs: 4
+  save_freq: 91
+  test_freq: 50
+  num_gpus: 8
+
+data:
+  domain: math
+  train_file: data/openr1-train.parquet
+  val_file: data/math500-test.parquet
+
+logging:
+  project_name: peft-arena
+  logger: [console, wandb]

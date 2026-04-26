@@ -1,0 +1,31 @@
+# =============================================================================
+# PEFTArena Eval Config: General Ability Evaluation
+# =============================================================================
+# Usage:
+#   python run.py eval --domain general --checkpoint_path <path>
+#   python run.py eval --domain general --checkpoint_path <path> --benchmarks bbh
+#   python run.py eval --domain general --checkpoint_path <path> --benchmarks ifeval_nq
+#   python run.py eval --domain general --checkpoint_path <path> --benchmarks bbh,ifeval_nq
+
+evaluation:
+  domain: general
+  num_gpus: 1
+
+  # Benchmarks to evaluate (comma-separated)
+  # Available: bbh, ifeval_nq
+  benchmarks: bbh,ifeval_nq
+
+  # OpenCompass settings
+  batch_size: 256
+  max_out_len: 1024
+  temperature: 0
+
+  # Model class selection is AUTOMATIC:
+  #   BBH:
+  #     - Base model (e.g. Qwen2.5-7B) → opencompass.models.VLLM
+  #     - Instruct model (e.g. Qwen2.5-7B-Instruct) → opencompass.models.VLLMwithChatTemplate
+  #   IFEval, NQ:
+  #     - Always → opencompass.models.VLLMwithChatTemplate
+  #
+  # Instruct detection is automatic based on model name/path
+  # (looks for 'instruct', '-ins', 'chat', 'it-' in the path)

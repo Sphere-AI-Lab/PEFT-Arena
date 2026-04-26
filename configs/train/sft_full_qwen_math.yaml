@@ -1,0 +1,38 @@
+# =============================================================================
+# PEFTArena Example Config: SFT + Full Fine-Tuning on Qwen2.5-7B
+# =============================================================================
+# Usage:
+#   python run.py train sft \
+#       --model Qwen/Qwen2.5-7B \
+#       --adapter full \
+#       --data_train data/openr1-train.parquet \
+#       --data_val data/math500-test.parquet \
+#       --lr 5e-5 --epochs 1 \
+#       --output_dir checkpoints/sft-full-qwen
+
+model:
+  name: Qwen/Qwen2.5-7B
+  dtype: bf16
+
+adapter:
+  type: full
+
+training:
+  type: sft
+  lr: 5e-5
+  batch_size: 256
+  max_length: 2048
+  micro_batch_size_per_gpu: 4
+  epochs: 1
+  save_freq: 50
+  test_freq: 10
+  num_gpus: 8
+
+data:
+  domain: math
+  train_file: data/openr1-train.parquet
+  val_file: data/math500-test.parquet
+
+logging:
+  project_name: peft-arena
+  logger: [console, wandb]

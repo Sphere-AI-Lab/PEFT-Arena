@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="PEFT-Arena: Understanding Parameter-Efficient Finetuning from a Stability-Plasticity Perspective.">
+  <meta name="keywords" content="PEFT, LLM, fine-tuning, stability, plasticity, OFT, LoRA, RLVR, PEFT-Arena">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102542">
+  <title>PEFT-Arena</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans:400,500,700|Noto+Sans:400,500,700|Castoro:400" rel="stylesheet">
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+</head>
+<body>
+
+<section class="hero project-hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="hero-pill">Preprint</div>
+      <h1 class="title publication-title">
+        <span class="title-emphasis">PEFT-Arena</span>: Understanding Parameter-Efficient Finetuning from a Stability-Plasticity Perspective
+      </h1>
+      <p class="hero-tagline">
+        Evaluate PEFT through the joint lens of target adaptation, retained general ability, and update geometry.
+      </p>
+
+      <div class="publication-authors">
+        <span class="author-block"><a href="https://huangyangyi.github.io/" target="_blank" rel="noopener">Yangyi Huang</a><sup>1</sup></span>
+        <span class="author-block"><a href="https://scholar.google.com.sg/citations?hl=en&amp;scioq=GLaMM&amp;user=l_eLH4MAAAAJ" target="_blank" rel="noopener">Ruotian Peng</a><sup>2</sup></span>
+        <span class="author-block"><a href="https://scholar.google.com/citations?hl=de&amp;user=7y5RN9wAAAAJ" target="_blank" rel="noopener">Zeju Qiu</a><sup>3</sup></span>
+        <span class="author-block"><a href="https://scholar.google.com/citations?hl=zh-CN&amp;user=tMihzcoAAAAJ" target="_blank" rel="noopener">Jiale Kang</a><sup>1</sup></span>
+        <span class="author-block"><a href="https://ydwen.github.io/" target="_blank" rel="noopener">Yandong Wen</a><sup>2</sup></span>
+        <span class="author-block"><a href="https://www.mpg.de/390896/intelligente_systeme_tuebingen_wissM2" target="_blank" rel="noopener">Bernhard Sch&ouml;lkopf</a><sup>3</sup></span>
+        <span class="author-block"><a href="https://wyliu.com/" target="_blank" rel="noopener">Weiyang Liu</a><sup>1,3</sup></span>
+      </div>
+
+      <div class="affiliation-block">
+        <span><sup>1</sup>The Chinese University of Hong Kong</span>
+        <span><sup>2</sup>Westlake University</span>
+        <span><sup>3</sup>Max Planck Institute for Intelligent Systems, T&uuml;bingen</span>
+      </div>
+
+      <div class="publication-links">
+        <a href="https://openreview.net/forum?id=HHplQA8fY8" class="button project-button is-rounded" target="_blank" rel="noopener">
+          <span class="icon"><i class="fas fa-book-open"></i></span>
+          <span>OpenReview</span>
+        </a>
+        <a href="./static/pdfs/peft-arena-poster.pdf" class="button project-button is-rounded" target="_blank" rel="noopener">
+          <span class="icon"><i class="fas fa-image"></i></span>
+          <span>Poster</span>
+        </a>
+        <a href="https://github.com/Sphere-AI-Lab/PEFT-Arena" class="button project-button is-rounded" target="_blank" rel="noopener">
+          <span class="icon"><i class="fab fa-github"></i></span>
+          <span>Code</span>
+        </a>
+        <a href="#citation" class="button project-button is-rounded">
+          <span class="icon"><i class="fas fa-quote-right"></i></span>
+          <span>Citation</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-tight">
+  <div class="container is-max-desktop">
+    <div class="feature-frame">
+      <img src="./static/images/teaser-overview.png" alt="PEFT-Arena overview figure" class="feature-image">
+    </div>
+    <p class="feature-caption">
+      PEFT-Arena combines benchmark evaluation, spectral retention-adaptation profiling, and interpolation-based trade-off analysis to study how PEFT methods balance plasticity and stability.
+    </p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="section-heading">
+      <p class="section-kicker">Paper Summary</p>
+      <h2 class="title is-3 section-title">Abstract</h2>
+    </div>
+    <div class="content body-copy">
+      <p>
+        Parameter-efficient finetuning (PEFT) has become the standard approach for adapting large foundation models, yet existing evaluations focus almost exclusively on downstream accuracy while largely overlooking the preservation of pretrained capabilities. PEFT-Arena argues that PEFT should be evaluated through the lens of the stability-plasticity dilemma: the trade-off between task adaptation and resistance to forgetting.
+      </p>
+      <p>
+        The benchmark jointly measures target-domain performance on mathematical and medical reasoning together with retained general ability on BBH, IFEval, and NQ, under both supervised finetuning (SFT) and reinforcement learning with verifiable rewards (RLVR / GRPO). Across Qwen2.5-7B and Llama3.2-3B-Instruct, all PEFT methods exhibit distinct stability-plasticity trade-off patterns, with OFT typically defining the most favorable Pareto frontier at comparable parameter budgets.
+      </p>
+      <p>
+        Beyond benchmark-level metrics, the paper introduces a spectral retention-adaptation profiling framework that decomposes weight updates into retention and adaptation components and measures their smoothness. Smoother spectral profiles correlate with better retention. The paper further identifies an overshoot phenomenon in SFT and studies interpolation-based trade-off recovery, including the geometry-aware iOFT variant.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="section section-muted">
+  <div class="container is-max-desktop">
+    <div class="section-heading">
+      <p class="section-kicker">Driving Questions</p>
+      <h2 class="title is-3 section-title">Research Questions</h2>
+    </div>
+    <div class="columns is-variable is-6">
+      <div class="column">
+        <div class="question-card">
+          <div class="question-tag">RQ1</div>
+          <h3>Which PEFT method achieves the best stability-plasticity trade-off?</h3>
+          <p>
+            Benchmark PEFT by target adaptation and retained general capability across math and medical reasoning, under both SFT and RLVR.
+          </p>
+        </div>
+      </div>
+      <div class="column">
+        <div class="question-card">
+          <div class="question-tag">RQ2</div>
+          <h3>What internal mechanisms govern forgetting and retention?</h3>
+          <p>
+            Analyze spectral geometry and interpolation trajectories to understand why some parameterizations stay stable while others overshoot.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="section-heading">
+      <p class="section-kicker">Benchmark Design</p>
+      <h2 class="title is-3 section-title">Protocol</h2>
+    </div>
+    <div class="columns is-multiline is-variable is-5">
+      <div class="column is-6">
+        <div class="protocol-card">
+          <h3>Target Domains</h3>
+          <ul>
+            <li><strong>Math:</strong> Math-500, AMC23, AIME24</li>
+            <li><strong>Medical:</strong> a curated suite including MedMCQA, MedQA, PubMedQA, MMLU-Pro, GPQA (Medical), Lancet/NEJM/MedBullets-style problems, and MedXpertQA</li>
+          </ul>
+        </div>
+      </div>
+      <div class="column is-6">
+        <div class="protocol-card">
+          <h3>General Retention</h3>
+          <ul>
+            <li><strong>IFEval</strong> for instruction following</li>
+            <li><strong>NQ</strong> for knowledge and understanding</li>
+            <li><strong>BBH</strong> for broad reasoning retention</li>
+          </ul>
+        </div>
+      </div>
+      <div class="column is-6">
+        <div class="protocol-card">
+          <h3>Models and Training</h3>
+          <ul>
+            <li><strong>Backbones:</strong> Qwen2.5-7B and Llama3.2-3B-Instruct</li>
+            <li><strong>Regimes:</strong> supervised finetuning and RLVR with GRPO</li>
+            <li><strong>Target data:</strong> OpenR1-Math and MedThink</li>
+          </ul>
+        </div>
+      </div>
+      <div class="column is-6">
+        <div class="protocol-card">
+          <h3>Compared Methods</h3>
+          <ul>
+            <li><strong>Full FT</strong></li>
+            <li><strong>LoRA family:</strong> LoRA, AdaLoRA, DoRA, MiSS, VeRA, PiSSA, MiLoRA, KeepLoRA</li>
+            <li><strong>Other PEFT:</strong> OFT and IA<sup>3</sup></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-muted">
+  <div class="container is-max-desktop">
+    <div class="section-heading">
+      <p class="section-kicker">Main Findings</p>
+      <h2 class="title is-3 section-title">What PEFT-Arena Shows</h2>
+    </div>
+    <div class="columns is-multiline is-variable is-5">
+      <div class="column is-6">
+        <div class="finding-card">
+          <h3>SFT exposes a sharp trade-off</h3>
+          <p>
+            Full finetuning tends to deliver the strongest target gains, but it also incurs the largest forgetting. Target-only reporting systematically overestimates post-training quality.
+          </p>
+        </div>
+      </div>
+      <div class="column is-6">
+        <div class="finding-card">
+          <h3>OFT sits on the favorable frontier</h3>
+          <p>
+            At comparable parameter budgets, OFT consistently balances adaptation and retention better than additive low-rank baselines across the paper's main settings.
+          </p>
+        </div>
+      </div>
+      <div class="column is-6">
+        <div class="finding-card">
+          <h3>RLVR is more forgetting-resistant</h3>
+          <p>
+            Under on-policy RLVR with GRPO, models often achieve stable target improvements with substantially less general-capability erosion than under SFT.
+          </p>
+        </div>
+      </div>
+      <div class="column is-6">
+        <div class="finding-card">
+          <h3>Geometry matters</h3>
+          <p>
+            Smoother spectral retention and adaptation profiles correlate with better retention. Interpolation also reveals an SFT overshoot region and motivates geometry-aware trade-off recovery via iOFT.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="section-heading">
+      <p class="section-kicker">Results</p>
+      <h2 class="title is-3 section-title">Representative Figures</h2>
+    </div>
+    <div class="columns is-multiline is-variable is-5">
+      <div class="column is-12">
+        <div class="figure-card figure-card-wide">
+          <div class="figure-copy">
+            <h3>Stability-Plasticity Benchmark</h3>
+            <p>
+              The benchmark reports target-domain performance together with retained general capability, rather than reducing post-training quality to a single downstream score. The strongest PEFT methods are those that move toward the upper-right frontier rather than simply maximizing target performance.
+            </p>
+          </div>
+          <div class="figure-frame">
+            <img src="./static/images/tradeoff-curve.png" alt="Trade-off curves for PEFT interpolation">
+          </div>
+        </div>
+      </div>
+      <div class="column is-7">
+        <div class="figure-card">
+          <div class="figure-copy">
+            <h3>Spectral Retention-Adaptation Profiling</h3>
+            <p>
+              The paper decomposes updates into retention and adaptation views and quantifies local fluctuation across singular directions. OFT tends to remain in a smoother and more coherent spectral regime than spikier additive updates.
+            </p>
+          </div>
+          <div class="figure-frame">
+            <img src="./static/images/spectral-analysis.png" alt="Spectral analysis figure">
+          </div>
+        </div>
+      </div>
+      <div class="column is-5">
+        <div class="figure-card">
+          <div class="figure-copy">
+            <h3>Interpolation and Overshoot</h3>
+            <p>
+              Training trajectories and interpolation trajectories are misaligned. This reveals that final SFT checkpoints often overshoot the best trade-off point, and motivates interpolation-based recovery and iOFT.
+            </p>
+          </div>
+          <div class="figure-frame">
+            <img src="./static/images/train-vs-interp.png" alt="Optimization versus interpolation figure">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-muted">
+  <div class="container is-max-desktop">
+    <div class="section-heading">
+      <p class="section-kicker">Artifacts</p>
+      <h2 class="title is-3 section-title">Paper &amp; Poster</h2>
+    </div>
+    <div class="paper-poster-grid">
+      <a class="paper-poster-card" href="https://openreview.net/forum?id=HHplQA8fY8" target="_blank" rel="noopener">
+        <div class="paper-poster-label">Paper</div>
+        <img src="./static/images/paper-preview-01.png" alt="PEFT-Arena paper first page preview" class="paper-poster-preview">
+      </a>
+      <a class="paper-poster-card" href="./static/pdfs/peft-arena-poster.pdf" target="_blank" rel="noopener">
+        <div class="paper-poster-label">Poster</div>
+        <img src="./static/images/poster-preview.png" alt="PEFT-Arena poster preview" class="paper-poster-preview">
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="section-heading">
+      <p class="section-kicker">Official Release</p>
+      <h2 class="title is-3 section-title">Code and Resources</h2>
+    </div>
+    <div class="columns is-multiline is-variable is-5">
+      <div class="column is-7">
+        <div class="resource-card">
+          <h3>What the Repository Includes</h3>
+          <ul>
+            <li>SFT and RLVR training entrypoints through a unified <code>run.py</code> interface</li>
+            <li>Math, medical, and general-retention evaluation pipelines</li>
+            <li>Spectral analysis and plotting code used for the paper's figures</li>
+            <li>Experiment checkpoints</li>
+          </ul>
+        </div>
+      </div>
+      <div class="column is-5">
+        <div class="resource-card resource-card-code">
+          <h3>Quick Commands</h3>
+          <pre><code>bash setup_env.sh
+
+python run.py train sft ...
+python run.py train rl ...
+python run.py eval ...
+python run.py merge ...</code></pre>
+        </div>
+      </div>
+    </div>
+    <div class="takeaway-banner">
+      <strong>Take-home message:</strong> PEFT should be evaluated and designed through the joint lens of <span>plasticity</span>, <span>retention</span>, and <span>geometry</span>.
+    </div>
+  </div>
+</section>
+
+<section class="section section-muted" id="citation">
+  <div class="container is-max-desktop">
+    <div class="section-heading">
+      <p class="section-kicker">Reference</p>
+      <h2 class="title is-3 section-title">Citation</h2>
+    </div>
+    <div class="citation-card">
+      <pre><code>@misc{huang2026peftarena,
+  title={PEFT-Arena: Understanding Parameter-Efficient Finetuning from a Stability-Plasticity Perspective},
+  author={Yangyi Huang and Ruotian Peng and Zeju Qiu and Jiale Kang and Yandong Wen and Bernhard Sch{\"o}lkopf and Weiyang Liu},
+  year={2026},
+  url={https://spherelab.ai/PEFT-Arena}
+}</code></pre>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
