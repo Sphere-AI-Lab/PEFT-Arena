@@ -20,12 +20,12 @@
 <section class="hero project-hero">
   <div class="hero-body">
     <div class="container is-max-desktop">
-      <div class="hero-pill">Preprint</div>
+      <div class="hero-pill">Research Blog</div>
       <h1 class="title publication-title">
         <span class="title-emphasis">PEFT-Arena</span>: Understanding Parameter-Efficient Finetuning from a Stability-Plasticity Perspective
       </h1>
       <p class="hero-tagline">
-        Evaluate PEFT through the joint lens of target adaptation, retained general ability, and update geometry.
+        PEFT methods should be evaluated by target gains, general-capability retention, and the geometry of capability disruption.
       </p>
 
       <div class="publication-authors">
@@ -47,11 +47,7 @@
       <div class="publication-links">
         <a href="https://openreview.net/forum?id=HHplQA8fY8" class="button project-button is-rounded" target="_blank" rel="noopener">
           <span class="icon"><i class="fas fa-book-open"></i></span>
-          <span>OpenReview</span>
-        </a>
-        <a href="./static/pdfs/peft-arena-poster.pdf" class="button project-button is-rounded" target="_blank" rel="noopener">
-          <span class="icon"><i class="fas fa-image"></i></span>
-          <span>Poster</span>
+          <span>Paper</span>
         </a>
         <a href="https://github.com/Sphere-AI-Lab/PEFT-Arena" class="button project-button is-rounded" target="_blank" rel="noopener">
           <span class="icon"><i class="fab fa-github"></i></span>
@@ -66,249 +62,186 @@
   </div>
 </section>
 
-<section class="section section-tight">
-  <div class="container is-max-desktop">
-    <div class="feature-frame">
-      <img src="./static/images/teaser-overview.png" alt="PEFT-Arena overview figure" class="feature-image">
-    </div>
-    <p class="feature-caption">
-      PEFT-Arena combines benchmark evaluation, spectral retention-adaptation profiling, and interpolation-based trade-off analysis to study how PEFT methods balance plasticity and stability.
-    </p>
-  </div>
-</section>
+<main class="blog-shell">
+  <article class="blog-article">
+    <section class="blog-section blog-intro" id="introduction">
+      <div class="blog-figure blog-figure-bleed">
+        <img src="./static/images/teaser-overview.png" alt="PEFT-Arena teaser: benchmark, internal geometry analysis, and pathwise interpolation">
+        <p>PEFT-Arena studies PEFT through a single diagnostic chain: external stability-plasticity trade-offs, internal geometry, and pathwise interpolation.</p>
+      </div>
 
-<section class="section">
-  <div class="container is-max-desktop">
-    <div class="section-heading">
-      <p class="section-kicker">Paper Summary</p>
-      <h2 class="title is-3 section-title">Abstract</h2>
-    </div>
-    <div class="content body-copy">
-      <p>
-        Parameter-efficient finetuning (PEFT) has become the standard approach for adapting large foundation models, yet existing evaluations focus almost exclusively on downstream accuracy while largely overlooking the preservation of pretrained capabilities. PEFT-Arena argues that PEFT should be evaluated through the lens of the stability-plasticity dilemma: the trade-off between task adaptation and resistance to forgetting.
+      <p class="blog-kicker">TL;DR</p>
+      <p class="blog-lead">
+        PEFT evaluation should ask not only <strong>what improves</strong>, but also <strong>what is forgotten</strong> and <strong>why</strong>. PEFT-Arena benchmarks target adaptation and general retention, then traces forgetting back to weight-space update geometry, activation-space distortion, and interpolation paths.
       </p>
+
+      <div class="blog-callout">
+        <strong>Main message.</strong> Target-only evaluation is incomplete. The same target score can hide very different levels of general-capability retention, and those differences are tied to how each PEFT parameterization perturbs pretrained geometry.
+      </div>
+
+      <nav class="blog-toc" aria-label="Page contents">
+        <a href="#evaluation-gap">Evaluation gap</a>
+        <a href="#benchmark">Benchmark</a>
+        <a href="#geometry">Internal geometry</a>
+        <a href="#interpolation">Interpolation</a>
+        <a href="#resources">Resources</a>
+      </nav>
+    </section>
+
+    <section class="blog-section" id="evaluation-gap">
+      <h2>Why target accuracy is not enough</h2>
       <p>
-        The benchmark jointly measures target-domain performance on mathematical and medical reasoning together with retained general ability on BBH, IFEval, and NQ, under both supervised finetuning (SFT) and reinforcement learning with verifiable rewards (RLVR / GRPO). Across Qwen2.5-7B and Llama3.2-3B-Instruct, all PEFT methods exhibit distinct stability-plasticity trade-off patterns, with OFT typically defining the most favorable Pareto frontier at comparable parameter budgets.
+        Parameter-efficient finetuning is often evaluated by a single downstream number. That misses the stability-plasticity dilemma: a model can learn a target domain while eroding instruction following, factual recall, or broad reasoning. PEFT-Arena makes this trade-off explicit by reporting target-domain adaptation together with retained general capability.
       </p>
+      <div class="blog-grid blog-grid-three">
+        <div class="mini-note">
+          <span>01</span>
+          <strong>Target-only evaluation is incomplete.</strong>
+          <p>Improving math or medical reasoning is not sufficient if the model breaks general abilities.</p>
+        </div>
+        <div class="mini-note">
+          <span>02</span>
+          <strong>Retention is a first-class metric.</strong>
+          <p>We evaluate general capability with IFEval, NQ, and BBH alongside target-domain scores.</p>
+        </div>
+        <div class="mini-note">
+          <span>03</span>
+          <strong>Parameterization matters.</strong>
+          <p>Full FT, LoRA-style updates, PiSSA, MiLoRA, OFT, and IA<sup>3</sup> produce different frontiers.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="blog-section" id="benchmark">
+      <h2>The benchmark table is the first warning sign</h2>
       <p>
-        Beyond benchmark-level metrics, the paper introduces a spectral retention-adaptation profiling framework that decomposes weight updates into retention and adaptation components and measures their smoothness. Smoother spectral profiles correlate with better retention. The paper further identifies an overshoot phenomenon in SFT and studies interpolation-based trade-off recovery, including the geometry-aware iOFT variant.
+        PEFT-Arena evaluates Qwen2.5-7B and Llama3.2-3B-Instruct under supervised finetuning and RLVR with GRPO. The target domains are mathematical and medical reasoning; the retention side is measured with general benchmarks. Reading the main benchmark table horizontally reveals the central pattern: the same target improvement can come with very different retention costs.
       </p>
-    </div>
-  </div>
-</section>
-
-<section class="section section-muted">
-  <div class="container is-max-desktop">
-    <div class="section-heading">
-      <p class="section-kicker">Driving Questions</p>
-      <h2 class="title is-3 section-title">Research Questions</h2>
-    </div>
-    <div class="columns is-variable is-6">
-      <div class="column">
-        <div class="question-card">
-          <div class="question-tag">RQ1</div>
-          <h3>Which PEFT method achieves the best stability-plasticity trade-off?</h3>
-          <p>
-            Benchmark PEFT by target adaptation and retained general capability across math and medical reasoning, under both SFT and RLVR.
-          </p>
-        </div>
+      <div class="benchmark-table-wrap" role="region" aria-label="Representative main benchmark results" tabindex="0">
+        <table class="benchmark-table">
+          <caption>Representative rows from the main benchmark table. Each metric cell reports Target / General average accuracy (%).</caption>
+          <thead>
+            <tr>
+              <th>Train</th>
+              <th>Method</th>
+              <th>Setting</th>
+              <th>Qwen Math</th>
+              <th>Qwen Med</th>
+              <th>Llama Math</th>
+              <th>Llama Med</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="table-group-row"><td colspan="7">Supervised finetuning (SFT)</td></tr>
+            <tr>
+              <td>SFT</td><td>Base</td><td>--</td>
+              <td>35.30 / 46.97</td><td>46.36 / 46.97</td><td>27.80 / 53.03</td><td>41.44 / 53.03</td>
+            </tr>
+            <tr>
+              <td>SFT</td><td>Full FT</td><td>--</td>
+              <td><strong>50.63</strong> / 34.22</td><td><strong>53.63</strong> / 34.41</td><td>33.90 / 39.83</td><td>44.26 / 26.03</td>
+            </tr>
+            <tr>
+              <td>SFT</td><td>OFT</td><td>block 32</td>
+              <td>46.93 / <strong>44.37</strong></td><td>48.63 / 42.40</td><td>30.60 / 40.73</td><td>39.50 / 40.50</td>
+            </tr>
+            <tr>
+              <td>SFT</td><td>LoRA</td><td>r8a16</td>
+              <td>42.47 / 39.22</td><td>47.91 / 36.06</td><td>24.07 / 36.57</td><td>38.34 / 27.99</td>
+            </tr>
+            <tr>
+              <td>SFT</td><td>PiSSA</td><td>r8a16</td>
+              <td>44.53 / 24.78</td><td>26.16 / 18.05</td><td>0.67 / 9.74</td><td>21.17 / 12.92</td>
+            </tr>
+            <tr>
+              <td>SFT</td><td>KeepLoRA</td><td>r8</td>
+              <td>40.53 / 43.75</td><td>45.60 / <strong>47.09</strong></td><td>15.20 / 40.74</td><td>41.26 / 39.52</td>
+            </tr>
+            <tr>
+              <td>SFT</td><td>VeRA</td><td>r256</td>
+              <td>39.43 / <strong>47.25</strong></td><td>28.50 / 47.01</td><td>28.80 / 46.79</td><td>40.68 / 48.94</td>
+            </tr>
+            <tr class="table-group-row"><td colspan="7">RLVR with GRPO</td></tr>
+            <tr>
+              <td>RLVR</td><td>Full FT</td><td>--</td>
+              <td>47.57 / 48.68</td><td>46.24 / 43.22</td><td>29.80 / 52.20</td><td>45.88 / 51.81</td>
+            </tr>
+            <tr>
+              <td>RLVR</td><td>OFT</td><td>block 32</td>
+              <td><strong>47.90</strong> / <strong>48.90</strong></td><td>46.79 / <strong>47.24</strong></td><td><strong>29.97</strong> / 50.04</td><td>44.99 / 52.31</td>
+            </tr>
+            <tr>
+              <td>RLVR</td><td>LoRA</td><td>r8a16</td>
+              <td>46.93 / 48.27</td><td>47.08 / 42.80</td><td>28.83 / 52.17</td><td>44.97 / <strong>53.53</strong></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <div class="column">
-        <div class="question-card">
-          <div class="question-tag">RQ2</div>
-          <h3>What internal mechanisms govern forgetting and retention?</h3>
-          <p>
-            Analyze spectral geometry and interpolation trajectories to understand why some parameterizations stay stable while others overshoot.
-          </p>
-        </div>
+      <p>
+        Full FT often maximizes target accuracy, but it spends a large amount of general capability to get there. OFT does not always maximize the target column, but it gives a stronger target-retention balance at a comparable PEFT budget. RLVR is a different regime: at the evaluated horizon, target gains are achieved with much less general erosion.
+      </p>
+      <div class="protocol-strip blog-protocol-strip">
+        <div class="protocol-mini"><strong>Models</strong><span>Qwen2.5-7B, Llama3.2-3B-Instruct</span></div>
+        <div class="protocol-mini"><strong>Training</strong><span>SFT and RLVR with GRPO</span></div>
+        <div class="protocol-mini"><strong>Targets</strong><span>Math and medical reasoning</span></div>
+        <div class="protocol-mini"><strong>Retention</strong><span>IFEval, NQ, BBH</span></div>
+        <div class="protocol-mini"><strong>Methods</strong><span>Full FT, LoRA family, OFT, IA<sup>3</sup></span></div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<section class="section">
-  <div class="container is-max-desktop">
-    <div class="section-heading">
-      <p class="section-kicker">Benchmark Design</p>
-      <h2 class="title is-3 section-title">Protocol</h2>
-    </div>
-    <div class="columns is-multiline is-variable is-5">
-      <div class="column is-6">
-        <div class="protocol-card">
-          <h3>Target Domains</h3>
+    <section class="blog-section" id="geometry">
+      <h2>Internal geometry: where forgetting comes from</h2>
+      <p>
+        Benchmark scores say what changed, but not how. PEFT-Arena therefore analyzes PEFT updates from two internal views. In weight space, spectral profiles describe how update energy interacts with pretrained singular directions. In activation space, Procrustes residual, Gram distortion, and CKA test whether finetuning preserves the relational geometry of general-evaluation representations.
+      </p>
+      <figure class="blog-figure">
+        <img src="./static/images/spectral-analysis.png" alt="Weight-space spectral retention-adaptation profiling figure">
+        <figcaption>Weight-space profiles act as a visual anchor for how PEFT parameterizations perturb pretrained geometry.</figcaption>
+      </figure>
+      <p>
+        The key distinction is that raw movement is not always destructive. OFT can move activations through rotation-like transformations, while preserving more of their relational structure. Forgetting is more closely tied to non-isometric distortion of general representations than to displacement alone.
+      </p>
+      <div class="blog-callout blog-callout-soft">
+        <strong>Three diagnostics.</strong> Weight profiles describe update bias; capability-conditioned drift measures how strongly general and target data activate changed directions; activation geometry measures non-isometric distortion with Procrustes, Gram, and CKA.
+      </div>
+    </section>
+
+    <section class="blog-section" id="interpolation">
+      <h2>Interpolation as pathwise diagnosis</h2>
+      <p>
+        A final checkpoint is only one point on an adaptation path. Interpolation asks whether the model moved farther than necessary. In SFT, intermediate points often recover general ability while preserving much of the target gain, revealing an overshoot region that final-checkpoint evaluation hides.
+      </p>
+      <div class="blog-grid blog-grid-two">
+        <figure class="blog-figure blog-figure-compact">
+          <img src="./static/images/tradeoff-curve-alt.png" alt="Interpolation target and general performance curves">
+          <figcaption>Interpolation exposes target-retention sweet spots before the final checkpoint.</figcaption>
+        </figure>
+        <figure class="blog-figure blog-figure-compact">
+          <img src="./static/images/train-vs-interp.png" alt="Training trajectory versus interpolation trajectory figure">
+          <figcaption>Training trajectories and interpolation trajectories are different paths through the target-general plane.</figcaption>
+        </figure>
+      </div>
+      <p>
+        The interpolation path must match the parameterization. Full FT, LoRA, and PiSSA naturally interpolate by scaling the effective update <code>&Delta;W</code>. OFT should instead follow its Cayley-generator path; dense-weight interpolation leaves the orthogonal manifold. Layer-wise OFT rewinding is a post-hoc case study of controlling imbalanced update strength along an existing finetuning path.
+      </p>
+    </section>
+
+    <section class="blog-section" id="resources">
+      <h2>Code and resources</h2>
+      <div class="resource-row">
+        <div class="paper-card">
+          <div class="paper-label">Paper <span class="paper-note">(coming soon)</span></div>
+          <img src="./static/images/paper-preview-01.png" alt="PEFT-Arena paper first page preview" class="paper-preview">
+        </div>
+        <div class="resource-card blog-resource-card">
+          <h3>What the repository includes</h3>
           <ul>
-            <li><strong>Math:</strong> Math-500, AMC23, AIME24</li>
-            <li><strong>Medical:</strong> a curated suite including MedMCQA, MedQA, PubMedQA, MMLU-Pro, GPQA (Medical), Lancet/NEJM/MedBullets-style problems, and MedXpertQA</li>
+            <li>Training and evaluation entrypoints for SFT and RLVR.</li>
+            <li>Benchmark result tables for target domains and general retention.</li>
+            <li>Weight-space geometry analysis scripts.</li>
+            <li>Activation-geometry and CSD diagnostics.</li>
+            <li>Interpolation and post-hoc rewinding utilities.</li>
           </ul>
-        </div>
-      </div>
-      <div class="column is-6">
-        <div class="protocol-card">
-          <h3>General Retention</h3>
-          <ul>
-            <li><strong>IFEval</strong> for instruction following</li>
-            <li><strong>NQ</strong> for knowledge and understanding</li>
-            <li><strong>BBH</strong> for broad reasoning retention</li>
-          </ul>
-        </div>
-      </div>
-      <div class="column is-6">
-        <div class="protocol-card">
-          <h3>Models and Training</h3>
-          <ul>
-            <li><strong>Backbones:</strong> Qwen2.5-7B and Llama3.2-3B-Instruct</li>
-            <li><strong>Regimes:</strong> supervised finetuning and RLVR with GRPO</li>
-            <li><strong>Target data:</strong> OpenR1-Math and MedThink</li>
-          </ul>
-        </div>
-      </div>
-      <div class="column is-6">
-        <div class="protocol-card">
-          <h3>Compared Methods</h3>
-          <ul>
-            <li><strong>Full FT</strong></li>
-            <li><strong>LoRA family:</strong> LoRA, AdaLoRA, DoRA, MiSS, VeRA, PiSSA, MiLoRA, KeepLoRA</li>
-            <li><strong>Other PEFT:</strong> OFT and IA<sup>3</sup></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section section-muted">
-  <div class="container is-max-desktop">
-    <div class="section-heading">
-      <p class="section-kicker">Main Findings</p>
-      <h2 class="title is-3 section-title">What PEFT-Arena Shows</h2>
-    </div>
-    <div class="columns is-multiline is-variable is-5">
-      <div class="column is-6">
-        <div class="finding-card">
-          <h3>SFT exposes a sharp trade-off</h3>
-          <p>
-            Full finetuning tends to deliver the strongest target gains, but it also incurs the largest forgetting. Target-only reporting systematically overestimates post-training quality.
-          </p>
-        </div>
-      </div>
-      <div class="column is-6">
-        <div class="finding-card">
-          <h3>OFT sits on the favorable frontier</h3>
-          <p>
-            At comparable parameter budgets, OFT consistently balances adaptation and retention better than additive low-rank baselines across the paper's main settings.
-          </p>
-        </div>
-      </div>
-      <div class="column is-6">
-        <div class="finding-card">
-          <h3>RLVR is more forgetting-resistant</h3>
-          <p>
-            Under on-policy RLVR with GRPO, models often achieve stable target improvements with substantially less general-capability erosion than under SFT.
-          </p>
-        </div>
-      </div>
-      <div class="column is-6">
-        <div class="finding-card">
-          <h3>Geometry matters</h3>
-          <p>
-            Smoother spectral retention and adaptation profiles correlate with better retention. Interpolation also reveals an SFT overshoot region and motivates geometry-aware trade-off recovery via iOFT.
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container is-max-desktop">
-    <div class="section-heading">
-      <p class="section-kicker">Results</p>
-      <h2 class="title is-3 section-title">Representative Figures</h2>
-    </div>
-    <div class="columns is-multiline is-variable is-5">
-      <div class="column is-12">
-        <div class="figure-card figure-card-wide">
-          <div class="figure-copy">
-            <h3>Stability-Plasticity Benchmark</h3>
-            <p>
-              The benchmark reports target-domain performance together with retained general capability, rather than reducing post-training quality to a single downstream score. The strongest PEFT methods are those that move toward the upper-right frontier rather than simply maximizing target performance.
-            </p>
-          </div>
-          <div class="figure-frame">
-            <img src="./static/images/tradeoff-curve.png" alt="Trade-off curves for PEFT interpolation">
-          </div>
-        </div>
-      </div>
-      <div class="column is-7">
-        <div class="figure-card">
-          <div class="figure-copy">
-            <h3>Spectral Retention-Adaptation Profiling</h3>
-            <p>
-              The paper decomposes updates into retention and adaptation views and quantifies local fluctuation across singular directions. OFT tends to remain in a smoother and more coherent spectral regime than spikier additive updates.
-            </p>
-          </div>
-          <div class="figure-frame">
-            <img src="./static/images/spectral-analysis.png" alt="Spectral analysis figure">
-          </div>
-        </div>
-      </div>
-      <div class="column is-5">
-        <div class="figure-card">
-          <div class="figure-copy">
-            <h3>Interpolation and Overshoot</h3>
-            <p>
-              Training trajectories and interpolation trajectories are misaligned. This reveals that final SFT checkpoints often overshoot the best trade-off point, and motivates interpolation-based recovery and iOFT.
-            </p>
-          </div>
-          <div class="figure-frame">
-            <img src="./static/images/train-vs-interp.png" alt="Optimization versus interpolation figure">
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section section-muted">
-  <div class="container is-max-desktop">
-    <div class="section-heading">
-      <p class="section-kicker">Artifacts</p>
-      <h2 class="title is-3 section-title">Paper &amp; Poster</h2>
-    </div>
-    <div class="paper-poster-grid">
-      <div class="paper-poster-card paper-poster-card-disabled">
-        <div class="paper-poster-label">Paper <span class="paper-poster-note">(coming soon)</span></div>
-        <img src="./static/images/paper-preview-01.png" alt="PEFT-Arena paper first page preview" class="paper-poster-preview">
-      </div>
-      <a class="paper-poster-card" href="./static/pdfs/peft-arena-poster.pdf" target="_blank" rel="noopener">
-        <div class="paper-poster-label">Poster</div>
-        <img src="./static/images/poster-preview.png" alt="PEFT-Arena poster preview" class="paper-poster-preview">
-      </a>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container is-max-desktop">
-    <div class="section-heading">
-      <p class="section-kicker">Official Release</p>
-      <h2 class="title is-3 section-title">Code and Resources</h2>
-    </div>
-    <div class="columns is-multiline is-variable is-5">
-      <div class="column is-7">
-        <div class="resource-card">
-          <h3>What the Repository Includes</h3>
-          <ul>
-            <li>SFT and RLVR training entrypoints through a unified <code>run.py</code> interface</li>
-            <li>Math, medical, and general-retention evaluation pipelines</li>
-            <li>Spectral analysis and plotting code used for the paper's figures</li>
-            <li>Experiment checkpoints</li>
-          </ul>
-        </div>
-      </div>
-      <div class="column is-5">
-        <div class="resource-card resource-card-code">
-          <h3>Quick Commands</h3>
           <pre><code>bash setup_env.sh
 
 python run.py train sft ...
@@ -317,12 +250,12 @@ python run.py eval ...
 python run.py merge ...</code></pre>
         </div>
       </div>
-    </div>
-    <div class="takeaway-banner">
-      <strong>Take-home message:</strong> PEFT should be evaluated and designed through the joint lens of <span>plasticity</span>, <span>retention</span>, and <span>geometry</span>.
-    </div>
-  </div>
-</section>
+      <div class="blog-callout">
+        <strong>Take-home message.</strong> PEFT evaluation should ask not only what improves, but also what is forgotten and why.
+      </div>
+    </section>
+  </article>
+</main>
 
 <section class="section section-muted" id="citation">
   <div class="container is-max-desktop">
