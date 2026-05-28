@@ -10,9 +10,10 @@ Official code release for the PEFT-Arena paper:
 
 Yangyi Huang, Ruotian Peng, Zeju Qiu, Jiale Kang, Yandong Wen, Bernhard Schölkopf, Weiyang Liu
 
-Project page: https://spherelab.ai/PEFT-Arena  
-GitHub: https://github.com/Sphere-AI-Lab/PEFT-Arena  
-Project site source: [docs/](docs/)
+- Project page: https://spherelab.ai/PEFT-Arena
+- Paper: https://arxiv.org/pdf/2605.28819
+- GitHub: https://github.com/Sphere-AI-Lab/PEFT-Arena
+- Project site source: [docs/](docs/)
 
 ## Abstract
 
