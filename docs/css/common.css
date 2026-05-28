@@ -1,0 +1,1358 @@
+:root {
+  --bg_h: white;
+  --bg: white;
+  --bg_s: white;
+  --bg_code: #f3f3f2;
+  --bg1: #ebdbb2;
+  --bg2: #d5c4a1;
+  --bg3: #bdae93;
+  --bg4: #a89984;
+  --fg: #282828;
+  --fg_code: #64a24e;
+  --fg1: #3c3836;
+  --fg2: #504945;
+  --fg3: #6b6866;
+  --fg4: #676767;
+  --fg5: #969696;
+  --red: #AD2111;
+  --green: #9CC355;
+  --yellow: #b57614;
+  --blue: #0E9EE4;
+  --purple: #8f3f71;
+  --aqua: #427b58;
+  --orange: #af3a03;
+  --gray: #817d79;
+  --red-dim: #cc2412;
+  --green-dim: #98971a;
+  --yellow-dim: #d79921;
+  --blue-dim: #458598;
+  --purple-dim: #b16286;
+  --aqua-dim: #689d6a;
+  --orange-dim: #d65d0e;
+  --gray-dim: #817d79;
+  --hover-bg: rgba(128, 128, 128, 0.12);
+  --font-sans: 'GT America', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-sans-fallback: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-serif: 'Iowan Old Style BT', Georgia, serif;
+  --site-header-height: 54px;
+}
+
+/* UI primitives moved to ui.css */
+.darkmode {
+  --bg_h: #000000;
+  --bg: #000000;
+  --bg_s: #1a1a1a;
+  --bg_code: #1a1a1a;
+  --bg1: #2a2a2a;
+  --bg2: #3a3a3a;
+  --bg3: #4a4a4a;
+  --bg4: #5a5a5a;
+  --fg: #ffffff;
+  --fg_code: #8ec07c;
+  --fg1: #f0f0f0;
+  --fg2: #e0e0e0;
+  --fg3: #d0d0d0;
+  --fg4: #c0c0c0;
+  --fg5: #b0b0b0;
+  --red: #AD2111;
+  --green: #9CC355;
+  --yellow: #fabd2f;
+  --blue: #0E9EE4;
+  --purple: #d3869b;
+  --aqua: #8ec07c;
+  --gray: #817d79;
+  --orange: #fe8019;
+  --red-dim: #cc2412;
+  --green-dim: #98971a;
+  --yellow-dim: #d79921;
+  --blue-dim: #458588;
+  --purple-dim: #b16286;
+  --aqua-dim: #689d6a;
+  --gray-dim: #a89984;
+  --orange-dim: #d65d0e;
+  --hover-bg: rgba(128, 128, 128, 0.4);
+}
+
+/* Font-face rules moved to fonts.css to keep common.css lean */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html {
+  overflow-y: scroll;
+  overflow-x: hidden; /* prevent horizontal scrolling globally */
+  scrollbar-width: thin;
+  scrollbar-color: var(--fg4) var(--bg);
+  scroll-padding-top: calc(var(--site-header-height) + 1rem);
+}
+body {
+  font-family: 'Iowan Old Style BT', Georgia, serif;
+  font-size: 17px;
+  line-height: 1.6;
+  background-color: var(--bg);
+  color: var(--fg);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  overflow-x: hidden; /* fallback for browsers without overflow: clip */
+  overflow-x: clip; /* avoid creating a sticky-breaking overflow ancestor */
+}
+#main-title {
+  font-family:
+    'Iowan Old Style BT',
+    Georgia,
+    serif;
+  font-weight: 450;
+  text-transform: none;
+  letter-spacing: normal;
+  text-wrap: balance;
+  font-size: 17px;
+  color: var(--fg4);
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+#main-title .title-main {
+  font-style: normal;
+  color: var(--fg) !important;
+}
+#main-title .title-sub {
+  font-style: italic;
+  color: var(--fg4);
+  margin-left: 8px;
+}
+/* Navbar Logo */
+.navbar-logo {
+  flex-shrink: 0;
+}
+
+#header .navbar-logo a,
+#header .navbar-logo a:link,
+#header .navbar-logo a:visited,
+#header .navbar-logo a:active,
+#header .navbar-logo a:hover {
+  font-family: 'Chakra Petch' !important;
+  font-style: normal !important;
+  font-weight: 500 !important;
+  font-size: 17px !important;
+  line-height: 25px !important;
+  letter-spacing: 1.7px !important;
+  color: var(--fg4);
+  text-decoration: none !important;
+  transition: opacity 0.3s ease-in-out;
+}
+
+body.darkmode #header .navbar-logo a,
+body.darkmode #header .navbar-logo a:link,
+body.darkmode #header .navbar-logo a:visited,
+body.darkmode #header .navbar-logo a:active,
+body.darkmode #header .navbar-logo a:hover {
+  color: var(--fg4) !important;  /* Medium grey for dark mode */
+}
+
+#header .navbar-logo a:hover {
+  opacity: 0.8;
+}
+
+/* Hide the homepage scroll-in logo by default (desktop and initial render) */
+#header .navbar-logo-home { display: none; }
+
+/* Navigation Group */
+.nav-group {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+/* Top Navigation */
+.top-nav {
+  display: flex;
+  gap: 1.75rem;
+  align-items: center;
+}
+
+.top-nav {
+  font-family: var(--font-sans);
+}
+
+.top-nav a {
+  font-family: var(--font-sans) !important;
+  font-weight: 400;
+  font-style: normal;
+  color: var(--fg1) !important;
+  text-decoration: none;
+  font-size: 15px;
+  letter-spacing: -0.01em;
+  transition: opacity 0.3s ease-in-out;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  opacity: 1;
+}
+
+.top-nav a:hover {
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--fg) 20%, transparent);
+  text-underline-offset: 2px;
+}
+
+.dark-mode-toggle {
+  color: var(--fg);
+  border: none;
+  cursor: pointer;
+  background-color: var(--bg);
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: background-color 0.3s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.5rem;
+  width: 2.5rem;
+  flex-shrink: 0;
+  margin-left: 1.5rem;
+}
+.dark-mode-toggle:hover {
+  color: var(--fg);
+  background-color: var(--hover-bg);
+}
+/* Hamburger (mobile menu toggle) */
+.hamburger {
+  display: none;
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 8px;
+  margin-left: 0.5rem;
+  -webkit-tap-highlight-color: transparent;
+}
+.hamburger span {
+  position: absolute;
+  left: 9px;
+  right: 9px;
+  height: 2px;
+  background: var(--fg3);
+  border-radius: 2px;
+  transition: transform 0.25s ease, opacity 0.2s ease, top 0.25s ease, bottom 0.25s ease;
+}
+.hamburger span:nth-child(1) { top: 12px; }
+.hamburger span:nth-child(2) { top: 19px; }
+.hamburger span:nth-child(3) { bottom: 12px; }
+
+.hamburger.is-active span:nth-child(1) {
+  top: 19px;
+  transform: rotate(45deg);
+}
+.hamburger.is-active span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.is-active span:nth-child(3) {
+  bottom: auto;
+  top: 19px;
+  transform: rotate(-45deg);
+}
+
+/* Mobile full-screen overlay menu */
+.mobile-menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mobile-menu-overlay.open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.mobile-menu-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  text-align: center;
+}
+.mobile-menu-nav a {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 20px;
+  letter-spacing: -0.01em;
+  color: var(--fg) !important;
+  text-decoration: none;
+}
+
+/* Keep header/hamburger above overlay for close interaction */
+#header .site-header, .hamburger { z-index: 1001; }
+
+/* Prevent background scroll when menu is open */
+body.menu-open {
+  overflow: hidden;
+}
+@media screen and (max-width: 768px) {
+  :root {
+    --site-header-height: 50px;
+  }
+
+  #header .site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1002; /* stay above overlay (1000) */
+    background: var(--bg);
+    padding: 0.75rem 1rem;
+    height: var(--site-header-height); /* Slightly smaller but still fixed on mobile */
+  }
+
+  .navbar-logo a {
+    font-size: 17px !important;
+    line-height: 23px !important;
+  }
+
+  .top-nav {
+    gap: 1.5rem;
+  }
+
+  .dark-mode-toggle {
+    height: 2rem;
+    width: 2rem;
+    margin-left: 1rem;
+  }
+}
+body:not(.darkmode) #sun {
+  display: none;
+}
+body.darkmode #moon {
+  display: none;
+}
+a {
+  text-decoration: none;
+  transition:
+    color 0.3s ease-in-out,
+    opacity 0.3s ease-in-out;
+}
+a:link {
+  color: var(--fg4);
+}
+a:hover,
+a:visited {
+  color: var(--fg4);
+  opacity: 1;
+}
+::selection {
+  background-color: rgba(0, 0, 0, 0.12);
+}
+.darkmode ::selection {
+  background-color: rgba(240, 240, 240, 0.5);
+  color: var(--fg);
+}
+time {
+  color: var(--fg4);
+  min-width: 5rem;
+}
+hr {
+  background-color: var(--fg4);
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border: 0;
+  height: 1px;
+}
+#wrapper {
+  background-color: var(--bg);
+  display: flex;
+  flex-direction: column;
+  font-family:
+    'Iowan Old Style BT',
+    Georgia,
+    serif;
+  min-height: 100vh;
+  overflow-wrap: break-word;
+  padding: var(--site-header-height) 1rem 0;
+}
+@media screen and (max-width: 768px) {
+  /* Remove wrapper padding for Tinker page since it has its own padding system */
+  #wrapper:not(:has(.tinker-hero-section)) {
+    padding-left: 0.33rem;
+    padding-right: 0.33rem;
+  }
+}
+.paginator {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 3.5rem;
+  position: relative;
+}
+
+/* Center the back-to-top link */
+.paginator #back-to-top {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+::-webkit-scrollbar {
+  background-color: var(--bg);
+  height: 8px;
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--fg4);
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--fg1);
+}
+#header {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg);
+  transition: transform 0.3s ease;
+  box-sizing: border-box;
+}
+#header .site-header {
+  width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  left: 1rem;
+  right: 1rem;
+  z-index: 1002;
+  height: var(--site-header-height); /* Fixed height for consistency */
+  padding: 0 1rem;
+  background: var(--bg);
+}
+
+@media screen and (min-width: 769px) {
+  /* Reduce header inner padding on desktop where wrapper already has 1rem */
+  #header .site-header {
+    padding-left: 0.33rem;
+    padding-right: 0.33rem;
+  }
+}
+
+/* Ensure sticky mobile header overrides generic relative positioning */
+@media screen and (max-width: 768px) {
+  #header .site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1002;
+    background: var(--bg);
+  }
+
+  /* Top-left logo only used on homepage and only on mobile */
+  #header .navbar-logo-home {
+    display: flex;               /* hidden on desktop via default rule above */
+    position: absolute;
+    left: 1rem;                  /* match header's left padding on mobile */
+    top: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding-left: 0;
+    padding-right: 0;
+    box-sizing: border-box;
+    opacity: 0;
+    pointer-events: none;
+    transition: none;            /* no fade on initial page load/navigation */
+  }
+  #header .navbar-logo-home.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  /* Enable fade only after user starts scrolling */
+  #header .navbar-logo-home.animate {
+    transition: opacity 180ms ease-in-out;
+  }
+}
+
+/* Offset content so it doesn't hide under the fixed header on mobile */
+@media screen and (max-width: 768px) {
+  #wrapper { padding-top: var(--site-header-height); }
+}
+
+/* Navbar spacer for homepage */
+.navbar-spacer {
+  flex-shrink: 0;
+  /* Invisible spacer to maintain layout */
+}
+#header .site-header > h1 {
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+@media screen and (min-width: 768px) {
+  #header .site-header > h1 {
+    font-size: 2.8rem;
+  }
+}
+#header .post-header {
+  width: 100%;
+  background-color: var(--bg);
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#header .post-header .post-title-sticky {
+  font-family:
+    'Iowan Old Style BT',
+    Georgia,
+    serif;
+  font-weight: 500;
+  font-size: 24px;
+  color: var(--fg);
+  margin: 0;
+  text-align: center;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+#header > nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  max-width: 768px;
+  margin-top: 10px;
+  width: 100%;
+}
+#header > nav > span > a {
+  font-size: 1rem;
+  color: var(--fg2);
+  text-decoration: none;
+  display: inline-block;
+  position: relative;
+  transition:
+    color 0.3s ease-in-out,
+    opacity 0.3s ease-in-out;
+}
+#header > nav > span > a:after {
+  background-color: var(--fg3);
+  content: "";
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 1px;
+  bottom: 0;
+  left: 0;
+  transform-origin: bottom right;
+  transition:
+    transform 0.25s ease-out,
+    opacity 0.3s ease-in-out;
+  opacity: 1;
+}
+#header > nav > span > a:hover {
+  color: var(--fg);
+  opacity: 1;
+}
+#header > nav > span > a:hover:after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+  opacity: 0.5;
+}
+/* Removed general header link color - now handled by specific selectors */
+main {
+  margin: 0;
+  flex: 1;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+#main {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  width: 100%;
+  margin: auto;
+  max-width: 680px;
+  padding: 1rem;
+  animation: fadeIn 0.6s ease-in-out;
+}
+@media screen and (max-width: 768px) {
+  #main {
+    width: 100%;
+  }
+}
+#footer {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-style: normal;
+  color: var(--fg4);
+  align-items: center;
+  display: flex;
+  font-size: 15px;
+  letter-spacing: -0.01em;
+  flex-direction: column;
+  margin-top: 5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+}
+
+/* Ensure all footer text uses GT America */
+#footer * {
+  font-family: inherit !important;
+}
+#footer > .footnote {
+  text-align: center;
+}
+#footer > div > span > a {
+  color: var(--fg4);
+  text-decoration: none;
+  position: relative;
+  transition:
+    color 0.3s ease-in-out,
+    opacity 0.3s ease-in-out;
+}
+#footer > div > span > a:after {
+  background-color: var(--fg4);
+  content: "";
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 0.5px;
+  bottom: 0;
+  left: 0;
+  transform-origin: bottom right;
+  transition:
+    transform 0.2s ease-out,
+    opacity 0.3s ease-in-out;
+  opacity: 1;
+}
+#footer > div > span > a:hover {
+  color: var(--fg3);
+  opacity: 1;
+}
+#footer > div > span > a:hover:after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+  opacity: 0.5;
+}
+
+/* Footer layout */
+#footer > div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 0.5rem;
+}
+
+#footer > div > span {
+  padding: 0;
+}
+
+/* Responsive styles for narrow screens */
+@media (max-width: 640px) {
+  /* Hide navbar on very small screens to avoid crowding */
+  .top-nav {
+    display: none;
+  }
+  .hamburger {
+    display: inline-block;
+  }
+  /* Slightly reduce space on the right of the hamburger */
+  #header .site-header {
+    padding-right: 0.6rem;
+  }
+
+  /* Keep default left padding (1rem) already set above; no override here */
+
+  /* Adjust navbar logo on very small screens */
+  .navbar-logo a {
+    font-size: 15px !important;
+    line-height: 21px !important;
+    letter-spacing: 1.5px !important;
+  }
+
+  .top-nav {
+    gap: 1.2rem;
+  }
+
+  .top-nav a {
+    font-size: 15px;
+  }
+
+  #footer {
+    align-items: flex-start;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 2rem;
+  }
+
+  #footer > div {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    width: 100%;
+    gap: 1.25rem;
+  }
+
+  #footer > div > span {
+    width: 100%;
+    padding: 0;
+    font-size: 15px;
+  }
+
+  /* Hide all footer separators on mobile */
+  #footer > div > .footer-separator {
+    display: none;
+  }
+}
+
+#sharingbuttons {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+.icon svg {
+  fill: var(--fg);
+  margin-right: 0.3em;
+  margin-left: 0.3em;
+}
+.taxonomy-svg {
+  padding: 0;
+  top: 0.125em;
+  position: relative;
+}
+.row {
+  margin-left: 2rem;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* funky TML logo */
+
+.logo-container {
+  max-width: var(--container-4xl);
+  margin-inline: auto;
+  padding-block: 1rem 1.35rem;
+  text-align: center;
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+.logo {
+  position: relative;
+  overflow: hidden;
+  background: white;
+  color: black;
+  border: solid 1px white;
+  backface-visibility: hidden;
+  animation: float 7s ease-in-out infinite;
+  display: inline-block;
+  font-size: clamp(3em, 8vw, 3.4em);
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1.3;
+  text-wrap: stable;
+  font-family: 'Chakra Petch', sans-serif;
+  font-weight: 400;
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
+/* Homepage announcement under the main title */
+.home-announcement {
+  margin-top: 1.6rem;
+  display: flex; /* block-level so it sits below the title */
+  justify-content: center;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+  position: relative;
+  max-width: 660px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.home-announcement .pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8px;
+  height: 26px;
+  font-family: var(--font-sans);
+  font-weight: 450;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--fg1);
+  background: rgba(0, 0, 0, 0.04);
+  border-radius: 100px;
+  transition: background-color 0.2s ease;
+}
+.home-announcement .announcement-text {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  color: var(--fg);
+  position: static;
+  display: inline;
+  text-decoration: none;
+  max-width: 660px;
+  text-wrap: balance;
+}
+
+@media (max-width: 600px) {
+  .home-announcement {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    max-width: calc(100% - 2rem);
+    gap: 0.5rem;
+  }
+
+  .home-announcement .announcement-text {
+    order: 1;
+    min-width: 0;
+    display: block;
+    text-align: center;
+  }
+
+  .home-announcement .pill {
+    order: 2;
+  }
+}
+
+/* Match ToC: simple underline on hover, no animation */
+.home-announcement:hover .announcement-text {
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--fg) 20%, transparent);
+  text-underline-offset: 2px;
+}
+
+.home-announcement:hover .pill {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.logo:AFTER {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 150%;
+  aspect-ratio: 1;
+  /* background: linear-gradient(90deg,rgb(43, 54, 255),rgb(176, 119, 236)); */
+  background: linear-gradient(90deg, #565151, #d2caca);
+  mix-blend-mode: screen;
+  animation: gradRotate 8s linear infinite;
+  pointer-events: none;
+  max-width: 100vw;
+  overflow: clip; /* avoid contributing to horizontal scroll while preserving size */
+  transform-origin: center;
+  transform: translate(-50%, -50%);
+}
+
+.darkmode .logo {
+  background: black;
+  color: white;
+  border-color: black;
+}
+
+.darkmode .logo:AFTER {
+  background: linear-gradient(90deg, #b5b9ff, #ffd6e0, #c1f7d3, #ffe5b4, #f7c8ff, #b5b9ff, #ffd6e0);
+  mix-blend-mode: multiply;
+}
+
+@media(prefers-reduced-motion: reduce) {
+  .logo {
+      animation: none;
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(5px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(5px);
+  }
+}
+
+@keyframes gradRotate {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* Homepage and list page styles */
+/* Ensure outer container accounts for horizontal padding without reducing 660px text width */
+#main.index.content {
+  max-width: calc(660px + 3.2rem); /* 660 + 2 * 1.6rem */
+}
+
+/* Non-blog single pages (e.g., privacy, terms) */
+#main.content > article.content {
+  max-width: 660px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Blog index page container width includes horizontal padding */
+#main.index.list {
+  max-width: calc(660px + 3.2rem); /* 660 + 2 * 1.6rem */
+}
+
+/* Constrain inner content to 660px and center it on list pages */
+#main.index.list .blog-page-title,
+#main.index.list .content,
+#main.index.list .post-group {
+  max-width: 660px;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+#main.index .post-group ul {
+  list-style-type: none;
+}
+
+/* Remove bullet points from homepage content lists (e.g., job listings) */
+#main.index.content ul {
+  list-style-type: none;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+/* Style job listings with right-aligned locations */
+#main.index.content ul li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.75rem;
+}
+
+/* Style job links - no underline by default, default text color */
+#main.index.content ul li a {
+  color: var(--fg);
+  text-decoration: none;
+  position: relative;
+  transition: color 0.3s ease-in-out;
+}
+
+/* Animated underline effect on hover */
+#main.index.content ul li a:after {
+  background-color: var(--fg);
+  content: "";
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 0.5px;
+  bottom: 0;
+  margin-bottom: 2px;
+  left: 0;
+  transform-origin: bottom right;
+  transition: transform 0.2s ease-out;
+}
+
+#main.index.content ul li a:hover:after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+/* Style job location text as secondary */
+#main.index.content .job-location {
+  color: var(--fg4);
+  margin-left: 2rem;
+}
+
+/* Responsive job listings for narrow screens */
+@media (max-width: 600px) {
+  #main.index.content ul li {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  #main.index.content .job-location {
+    margin-left: 0;
+  }
+
+  /* Left-align section titles on mobile */
+  #main.index.content h2[style*="text-align: center"] {
+    text-align: left !important;
+  }
+}
+
+/* Increase spacing between paragraphs and headers on index page */
+#main.index.content p {
+  margin-bottom: 1.8rem; /* Increased from default 1.333rem */
+}
+
+/* Left-align all headers on index page */
+#main.index.content h1,
+#main.index.content h2,
+#main.index.content h3,
+#main.index.content h4,
+#main.index.content h5,
+#main.index.content h6 {
+  text-align: left !important;
+  font-family: var(--font-sans);
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+#main.index.content h2 {
+  margin-top: 2.8rem; /* Increased spacing above h2 headers */
+  margin-bottom: 1rem; /* Add spacing below h2 headers */
+}
+
+#main.index.content h3 {
+  margin-top: 2.5rem; /* Increased spacing above h3 headers */
+  margin-bottom: 0.8rem; /* Add spacing below h3 headers */
+}
+
+#main.index.list .post-group ul {
+  padding-top: 1.6rem;
+}
+
+#main.index .post-group ul li {
+  margin-bottom: 0;
+  position: relative;
+  padding-bottom: 0.4rem;
+}
+
+#main.index .post-group ul li + li {
+  padding-top: 0.4rem;
+}
+
+#main.index .post-group ul li + li::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  border-top: 1px solid color-mix(in srgb, var(--fg4) 10%, transparent);
+  pointer-events: none;
+}
+
+/* Clickable post item styling */
+#main.index .post-group .post-item-link {
+  display: grid;
+  grid-template-columns: 7rem 1fr;
+  gap: 1.5rem;
+  align-items: baseline;
+  line-height: 1.4;
+  padding: 1.2rem 1.5rem;
+  margin: 0 -1.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+
+#main.index .post-group .post-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+}
+
+#main.index .post-group .post-info .post-subtitle {
+  font-size: 0.95em;
+  color: var(--fg1);
+  line-height: 1.4;
+  transition: opacity 0.2s ease;
+}
+
+#main.index .post-group .post-info .author {
+  display: block;
+  font-size: 15px;
+  color: var(--fg4);
+  font-family: var(--font-sans);
+  padding-top: 10px;
+  transition: opacity 0.2s ease;
+}
+
+#main.index .post-group .post-item-link .desktop-time {
+  text-align: left;
+  font-size: 15px;
+  font-family: var(--font-sans);
+  color: var(--fg4);
+  white-space: nowrap;
+  transition: opacity 0.2s ease;
+}
+
+@media screen and (min-width: 768px) {
+  #main.index .post-group ul {
+    margin-left: 0;
+    padding-left: 0;
+  }
+}
+
+/* Hide mobile time on desktop */
+.mobile-time {
+  display: none;
+}
+
+/* Author-date combined on one line */
+.author-date {
+  display: block;
+  font-size: 15px;
+  color: var(--fg4);
+  font-family: var(--font-sans);
+}
+
+@media screen and (max-width: 767px) {
+  #main.index .post-group .post-item-link {
+    display: block;
+    padding: 1rem 1.6rem;
+    margin: 0 -1.6rem;
+  }
+
+  /* Hide desktop time on mobile */
+  .desktop-time {
+    display: none;
+  }
+
+  /* Show mobile time */
+  .mobile-time {
+    display: block;
+    font-size: 15px;
+    color: var(--fg4);
+    font-family: var(--font-sans);
+    transition: opacity 0.2s ease;
+  }
+
+  #main.index .post-group .post-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+}
+
+/* Match mobile horizontal padding to blog posts (left/right = 1.6rem) */
+@media (max-width: 1170px) {
+  #main.index,
+  #main.content {
+    padding-left: 1.3rem;
+    padding-right: 1.3rem;
+  }
+}
+
+/* Post title styling */
+#main.index .post-group .post-title {
+  color: var(--fg);
+  font-size: 17px;
+  font-weight: 500;
+  position: relative;
+  display: inline-block;
+  transition: opacity 0.2s ease;
+}
+
+/* Hover styles: make text darker and underline the title */
+#main.index .post-group .post-item-link:hover .post-info .post-title {
+  color: var(--fg);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--fg2) 20%, transparent);
+  text-underline-offset: 2px;
+}
+
+#main.index .post-group .post-item-link:hover .post-info .post-subtitle {
+  color: var(--fg);
+}
+
+#main.index .post-group .post-item-link:hover .author-date,
+#main.index .post-group .post-item-link:hover time,
+#main.index .post-group .post-item-link:hover .desktop-time,
+#main.index .post-group .post-item-link:hover .mobile-time {
+  color: var(--fg3);
+}
+
+/* Blog page title styling */
+.blog-page-title {
+  font-family: var(--font-sans);
+  font-size: 1.6rem;
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  text-align: left;
+  margin: 0;
+  padding-top: 1rem;
+  line-height: 1.1;
+}
+
+/* List page intro copy should stay roman by default */
+#main.index.list .content {
+  font-style: normal;
+}
+
+#main.index.list.section-blog > .content {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  color: var(--fg4);
+}
+
+#main.index.list .content .news-index-contact {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  padding-top: 1.5rem;
+}
+
+/* Inline SVG chart styles */
+.chart-line,
+.chart-line-2pane {
+  margin: 1rem 0;
+}
+.chart-line .chart-title,
+.chart-line-2pane .chart-title {
+  font-family: 'Iowan Old Style BT', Georgia, serif;
+  font-weight: 500;
+  font-size: 24px;
+  dominant-baseline: hanging;
+  fill: var(--fg);
+}
+.chart-line text,
+.chart-line-2pane text {
+  font-family: var(--font-sans);
+  fill: var(--fg2);
+  font-size: 14px;
+}
+.chart-line .axis-label,
+.chart-line-2pane .axis-label {
+  font-family: 'Iowan Old Style BT', Georgia, serif;
+  font-size: 0.9rem;
+  fill: var(--fg1);
+}
+.chart-line .axis-tick,
+.chart-line-2pane .axis-tick { fill: var(--fg2); font-size: 0.8rem; }
+.chart-line .gridline,
+.chart-line-2pane .gridline {
+  stroke: color-mix(in srgb, var(--fg4) 20%, var(--bg) 80%);
+  stroke-width: 1;
+}
+.chart-line .tick,
+.chart-line-2pane .tick { stroke: var(--fg4); }
+.chart-line .axis-line,
+.chart-line-2pane .axis-line { stroke: var(--fg4); stroke-width: 1; }
+.chart-line .line, .chart-line-2pane .line {
+  stroke: var(--series-color, var(--blue));
+  stroke-width: var(--line-width, 1.7);
+  fill: none;
+}
+
+/* Ensure both single- and two-pane figures share the same baseline styles */
+figure.chart-line .line,
+figure.chart-line-2pane .line {
+  fill: none;
+  stroke-width: 2px;
+}
+.chart-line .point,
+.chart-line-2pane .point {
+  fill: var(--series-color, var(--blue));
+}
+.chart-line .refline,
+.chart-line-2pane .refline {
+  stroke: var(--red);
+  stroke-dasharray: 2 2;
+  stroke-width: 2;
+}
+.chart-line .refline-label,
+.chart-line-2pane .refline-label {
+  font-family: 'Iowan Old Style BT', Georgia, serif;
+  fill: var(--fg2);
+  font-size: 0.9rem;
+}
+.chart-line .legend-label,
+.chart-line-2pane .legend-label { fill: var(--fg1); font-size: 14px; }
+.chart-line .legend-swatch,
+.chart-line-2pane .legend-swatch { fill: var(--series-color, var(--blue)); }
+.chart-line .legend-bg,
+.chart-line-2pane .legend-bg {
+  fill: color-mix(in srgb, var(--bg) 92%, var(--fg4) 8%);
+  stroke: color-mix(in srgb, var(--fg4) 20%, var(--bg) 80%);
+}
+.chart-line .series-color-box,
+.chart-line-2pane .series-color-box {
+  fill: var(--series-color, var(--blue));
+  stroke: color-mix(in srgb, var(--fg4) 20%, var(--bg) 80%);
+  stroke-width: 0.5;
+}
+.chart-line .series-label,
+.chart-line-2pane .series-label {
+  font-family: 'Iowan Old Style BT', Georgia, serif;
+  fill: var(--fg1);
+  font-size: 0.9rem;
+  paint-order: stroke;
+  stroke: var(--bg);
+  stroke-width: 3px;
+}
+.chart-line .cursor-line,
+.chart-line-2pane .cursor-line {
+  stroke: var(--fg3);
+  stroke-width: 1.2;
+  stroke-opacity: 0.28;
+  opacity: 0;
+  transition: opacity 220ms ease-in-out;
+}
+.chart-line .tooltip .tooltip-bg,
+.chart-line-2pane .tooltip .tooltip-bg {
+  fill: var(--bg_s);
+  stroke: color-mix(in srgb, var(--fg4) 30%, var(--bg) 70%);
+}
+.chart-line .tooltip .tooltip-text,
+.chart-line-2pane .tooltip .tooltip-text {
+  fill: var(--fg1);
+  font-size: 13px;
+}
+
+.content figure svg,
+figure svg {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 100%;
+  height: auto;
+}
+
+figure.half-width {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 620px;
+}
+
+figure.half-width.matmul,
+figure.half-width + figcaption,
+figure > figcaption {
+  text-align: center;
+}
+
+.ascii-art {
+  font-family: monospace !important;
+  font-size: clamp(0.0rem, 1.2vw, 0.8rem);
+  line-height: 1.2;
+  text-align: center;
+  overflow-x: clip !important;
+  /* Override asymmetric padding from .content pre (which has extra right padding for copy button) */
+  padding: 1rem !important;
+}

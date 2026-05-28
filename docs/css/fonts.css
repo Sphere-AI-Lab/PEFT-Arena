@@ -1,0 +1,106 @@
+/*
+ * Font face declarations for the TML-style template.
+ *
+ * The original TML site uses three custom fonts:
+ *   - Iowan Old Style BT  (serif body)
+ *   - GT America          (sans-serif UI / nav / captions)
+ *   - Chakra Petch        (logo wordmark)
+ *
+ * Iowan Old Style ships on macOS, so on Apple devices the site renders with the
+ * native font. Elsewhere we alias the same family names to close Google Fonts
+ * equivalents (Source Serif 4 and Inter), so the design is faithful on every
+ * platform without depending on paid font licenses.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..900;1,8..60,300..900&family=Inter:wght@300;400;500;600;700&family=Chakra+Petch:wght@400;500;600;700&display=swap');
+
+/* Alias 'Iowan Old Style BT' -> Source Serif 4 (only loads when Iowan isn't installed locally) */
+@font-face {
+  font-family: 'Iowan Old Style BT';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Iowan Old Style'),
+       local('IowanOldStyle-Roman'),
+       local('Source Serif 4');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Iowan Old Style BT';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Iowan Old Style Italic'),
+       local('IowanOldStyle-Italic'),
+       local('Source Serif 4 Italic');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Iowan Old Style BT';
+  font-style: normal;
+  font-weight: 600;
+  src: local('Iowan Old Style Bold'),
+       local('IowanOldStyle-Bold'),
+       local('Source Serif 4 SemiBold');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Iowan Old Style BT';
+  font-style: italic;
+  font-weight: 600;
+  src: local('Iowan Old Style Bold Italic'),
+       local('IowanOldStyle-BoldItalic'),
+       local('Source Serif 4 SemiBold Italic');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Iowan Old Style BT';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Iowan Old Style Bold'),
+       local('IowanOldStyle-Bold'),
+       local('Source Serif 4 Bold');
+  font-display: swap;
+}
+
+/* Alias 'GT America' -> Inter */
+@font-face {
+  font-family: 'GT America';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Inter Light');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'GT America';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Inter Regular'), local('Inter');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'GT America';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Inter Italic');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'GT America';
+  font-style: normal;
+  font-weight: 500;
+  src: local('Inter Medium');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'GT America';
+  font-style: normal;
+  font-weight: 600;
+  src: local('Inter SemiBold');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'GT America';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Inter Bold');
+  font-display: swap;
+}

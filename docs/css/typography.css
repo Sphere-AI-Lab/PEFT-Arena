@@ -1,0 +1,408 @@
+/* General content typography styles */
+.content {
+  padding-top: 0.5rem;
+}
+
+.content .MathJax {
+  font-size: 100% !important;
+  /* Do not clip vertical glyphs (radicals, braces). Allow natural height. */
+  overflow: visible;
+}
+
+.content .katex {
+  font-size: 100% !important;
+  /* Allow KaTeX to extend above/below baseline (needed for \sqrt, \underbrace). */
+  overflow: visible;
+  padding-bottom: 1.0rem;
+}
+
+/* If extremely wide display equations overflow horizontally, allow scrolling on the
+   inner KaTeX block while keeping vertical overflow visible. */
+.content .katex-display > .katex {
+  overflow-x: auto;
+  overflow-y: visible;
+}
+
+.content :last-child {
+  margin-bottom: 0;
+}
+
+.content a {
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--fg4) 30%, transparent);
+  transition:
+    color 0.3s ease-in-out,
+    text-decoration-color 0.3s ease-in-out;
+}
+
+.content a:hover {
+  color: var(--fg2);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--fg2) 30%, transparent);
+}
+
+.content a.footnote-ref {
+  text-decoration: none;
+}
+
+.content a.footnote-ref::before {
+  content: "[";
+}
+
+.content a.footnote-ref::after {
+  content: "]";
+}
+
+.content blockquote:not(.epigraph):not(.twitter-tweet) {
+  border-left: 2px solid color-mix(in srgb, var(--fg4) 35%, var(--bg) 65%);
+  color: var(--fg2);
+  font-style: normal;
+  margin: 1.6rem 0 1.6rem 1rem;
+  padding: 0.1rem 0 0.1rem 1.25rem;
+}
+
+.content blockquote blockquote {
+  background-color: var(--bg1);
+}
+
+/* Epigraph style (Tufte-inspired) */
+.content blockquote.epigraph {
+  background: transparent;
+  border: none;
+  color: var(--fg2);
+  font-style: italic;
+  font-size: 1.05rem;
+  line-height: 1.5;
+  margin: 1.2rem 0 1.2rem 1rem;
+  max-width: 100%;
+  padding: 0 1.25rem;
+  position: relative;
+}
+.content blockquote.epigraph::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.2rem;
+  bottom: 0.2rem;
+  width: 3px;
+  background-color: var(--fg5);
+  opacity: 0.6;
+}
+
+.content pre {
+  background-color: var(--bg_code) !important;
+  border-radius: 0.45rem;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', monospace;
+  position: relative;
+  overflow-x: auto;
+  padding: 1rem 2rem 1rem 1rem; /* default top padding for blocks without language */
+  -webkit-text-size-adjust: none; /* prevent iOS font boosting */
+  text-size-adjust: none;
+  font-variant-ligatures: none;
+  /* letter-spacing: 0; keep tracking tight */
+  font-weight: 400;
+}
+
+/* Increase top padding only when language label is present */
+.content pre:has(code[data-lang]) {
+  padding-top: 2rem;
+}
+
+/* Copy button styles */
+.code-block-wrapper {
+  position: relative;
+}
+button.copy-button {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  left: auto;
+  background-color: transparent;
+  color: var(--fg4);
+  border: none;
+  border-radius: 0.3rem;
+  padding: 0.4rem;
+  cursor: pointer;
+  opacity: 0;
+  transition:
+    opacity 0.2s ease-in-out,
+    background-color 0.15s ease-in-out,
+    color 0.15s ease-in-out;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.code-block-wrapper:hover .copy-button,
+.content pre:hover button.copy-button {
+  opacity: 1;
+}
+
+button.copy-button:hover {
+  opacity: 1 !important;
+  background-color: color-mix(in srgb, var(--fg4) 8%, transparent);
+  color: var(--fg2);
+}
+
+button.copy-button svg {
+  width: 1rem;
+  height: 1rem;
+  fill: currentColor;
+}
+
+.content pre code {
+  padding: 0;
+  color: var(--fg3); /* slightly darker to match prod */
+  font-family: inherit; /* inherit monospace from pre */
+  padding: 0 0.8rem 0 0.2rem;
+  font-size: 13px;
+  /* Preserve original lines; allow horizontal scroll on container */
+  white-space: pre;
+  word-break: normal;
+  overflow-wrap: normal;
+  display: block;
+  line-height: 1.4;
+  -webkit-text-size-adjust: none; /* ensure nested spans don't inflate */
+  text-size-adjust: none;
+  letter-spacing: 0;
+  font-weight: 400;
+}
+
+/* Improve text selection contrast inside code blocks */
+.content pre::selection,
+.content pre code::selection,
+.content pre *::selection {
+  background-color: #d0d0d0;
+}
+.content pre::-moz-selection,
+.content pre code::-moz-selection,
+.content pre *::-moz-selection {
+  background-color: #d0d0d0;
+}
+
+.darkmode .content pre::selection,
+.darkmode .content pre code::selection,
+.darkmode .content pre *::selection {
+  background-color: rgba(255, 255, 255, 0.5);
+  color: var(--bg);
+}
+.darkmode .content pre::-moz-selection,
+.darkmode .content pre code::-moz-selection,
+.darkmode .content pre *::-moz-selection {
+  background-color: rgba(255, 255, 255, 0.5);
+  color: var(--bg);
+}
+
+/* Language label chip shown at top-left of code blocks */
+.content pre code[data-lang]::before {
+  content: attr(data-lang);
+  position: absolute;
+  top: 0.45rem;
+  left: 0.75rem;
+  z-index: 5;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  color: var(--fg4);
+  padding: 0;
+  text-transform: lowercase;
+  pointer-events: none;
+}
+
+.content code {
+  padding: 0;
+  color: var(--red);
+  font-family: SFMono-Regular, 'SF Mono', ui-monospace, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  padding: 0 0.2rem 0 0.2rem;
+  font-size: 0.9em;
+  text-wrap: wrap;
+  display: inline;
+}
+
+.content mark {
+  background-color: var(--bg_s);
+  color: var(--fg1);
+  border-radius: 0.2rem;
+  padding: 0 0.2rem;
+}
+
+.content kbd {
+  background-color: var(--bg_s);
+  color: var(--fg1);
+  border-radius: 0.2rem;
+}
+
+.content table {
+  display: block;
+  overflow-x: auto;
+  margin: auto;
+  background-color: var(--bg);
+  border-collapse: collapse;
+  border: none;
+}
+
+.content table td,
+.content table th {
+  border: var(--fg4) 1px solid;
+  padding: 0.75rem 0.75rem;
+}
+.content table td {
+  vertical-align: top;
+  font-size: 1.0rem;
+}
+
+.content table th {
+  background-color: var(--bg_s);
+  font-weight: bold;
+}
+
+.content ul {
+  list-style: square;
+  margin-left: 1.5rem;
+  margin-top: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.content ul > li {
+  margin-bottom: 0.2rem;
+}
+
+.content ol {
+  list-style: decimal;
+  margin-left: 2rem;
+  margin-top: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.content ol > li {
+  margin-bottom: 0.2rem;
+}
+
+/* Nested ordered lists use lowercase letters */
+.content ol ol {
+  list-style-type: lower-alpha;
+}
+
+.content dt {
+  font-weight: bold;
+}
+
+.content dd {
+  margin-left: 1rem;
+}
+
+.content blockquote,
+.content div,
+.content h1,
+.content h2,
+.content h3,
+.content h4,
+.content h5,
+.content h6,
+.content p,
+.content pre,
+.content table,
+.content dl,
+.content video {
+  margin-top: 0rem;
+  margin-bottom: 1.333rem;
+}
+
+/* Only for blog title */
+.content h1 {
+  font-size: 1.75rem;
+  margin: 0 0 0.6em;
+  margin-top: 1.25em;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+/* Legal and other non-blog pages: match blog-post h1 styling */
+#main.content article.content h1 {
+  font-family: 'Iowan Old Style BT', Georgia, serif;
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 1.4;
+}
+
+/* Center-align the main page title on legal pages */
+#main.content article.content h1:first-child {
+  text-align: center;
+  max-width: 480px;
+  margin: 1.5rem auto 0;
+}
+
+/* Tighten spacing between legal page title and the Last updated line */
+#main.content article.content h1 + h3 {
+  margin-top: 0.4rem;   /* close the gap to the title */
+  margin-bottom: 1.2rem;/* add breathing room below */
+  text-align: center;   /* ensure centered regardless of inline styles */
+}
+
+/* Used for blog body content */
+.content h2 {
+  font-size: 1.45rem;
+  margin: 1.6em 0 0.6em;
+  margin-top: 1.25em;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.content h3 {
+  font-size: 1.35rem;
+  margin: 1.4em 0 0.5em 0;
+  font-weight: normal;
+  font-style: italic;
+  line-height: 1.4;
+}
+
+/* Use h4 and below sparingly */
+.content h4 {
+  font-size: 0.97rem;
+  margin: 1.4em 0 0.7em 0;
+  font-weight: normal;
+  font-style: italic;
+}
+
+.content h5 {
+  font-size: 0.76rem;
+  margin: 1.4em 0 0.7em 0;
+  font-weight: normal;
+  font-style: italic;
+}
+
+.content h6 {
+  font-size: 0.6rem;
+  margin: 1.4em 0 0.7em 0;
+  font-weight: normal;
+  font-style: italic;
+}
+
+/* Ensure spacing after figures before the next heading (avoid margin collapse) */
+.content figure + h1,
+.content figure + h2,
+.content figure + h3,
+.content figure + h4,
+.content figure + h5,
+.content figure + h6 {
+  margin-top: 2rem;
+}
+
+.content img {
+  max-width: 100%;
+}
+
+.content strong.chinese {
+  font-weight: normal;
+  text-emphasis-style: dot;
+  text-emphasis-position: under;
+  -webkit-text-emphasis-style: dot;
+  -webkit-text-emphasis-position: under;
+}
+
+/* Back to top link hover */
+#back-to-top:hover {
+  text-decoration: underline !important;
+}

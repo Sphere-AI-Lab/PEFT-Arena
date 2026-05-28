@@ -1,278 +1,1055 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="description"
-        content="PEFT-Arena: Understanding Parameter-Efficient Finetuning from a Stability-Plasticity Perspective.">
-  <meta name="keywords" content="PEFT, LLM, fine-tuning, stability, plasticity, OFT, LoRA, RLVR, PEFT-Arena">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#102542">
-  <title>PEFT-Arena</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="PEFT-Arena Team">
+<meta name="description" content="PEFT-Arena: Understanding Parameter-Efficient Finetuning from a Stability-Plasticity Perspective">
+<meta name="keywords" content="PEFT, LLM, finetuning, stability, plasticity, OFT, LoRA, RLVR, PEFT-Arena">
+<title>PEFT-Arena: Understanding Parameter-Efficient Finetuning from a Stability-Plasticity Perspective</title>
 
-  <link href="https://fonts.googleapis.com/css?family=Google+Sans:400,500,700|Noto+Sans:400,500,700|Castoro:400" rel="stylesheet">
-  <link rel="stylesheet" href="./static/css/bulma.min.css">
-  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
-  <link rel="stylesheet" href="./static/css/index.css">
-  <script defer src="./static/js/fontawesome.all.min.js"></script>
+<link rel="stylesheet" href="css/fonts.css">
+<link rel="stylesheet" href="css/common.css">
+<link rel="stylesheet" href="css/typography.css">
+<link rel="stylesheet" href="css/blog-post.css">
+<link rel="stylesheet" href="css/ui.css">
+<link rel="stylesheet" href="css/syntax.css">
+
+<style>
+  #main.post .post-title {
+    font-size: 30px;
+    line-height: 1.18;
+    max-width: 820px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  #main.post .publish-metadata.peft-meta {
+    gap: 0.15rem;
+  }
+
+  #main.post .publish-metadata.peft-meta .meta-sub {
+    color: var(--fg3);
+    font-size: 13.5px;
+    padding-top: 0;
+  }
+
+  #main.post .publish-metadata.peft-meta .author sup,
+  #main.post .authors-list sup {
+    color: var(--fg4);
+    font-family: 'Iowan Old Style BT', Georgia, serif;
+    font-size: 0.72em;
+    font-weight: 600;
+    line-height: 0;
+    margin-left: 0.04em;
+  }
+
+  #main.post .publish-metadata.peft-meta .affiliations,
+  #main.post .publish-metadata.peft-meta .author-notes {
+    color: var(--fg3);
+    font-size: 13px;
+    line-height: 1.45;
+    max-width: 760px;
+    padding-top: 0;
+  }
+
+  #main.post .publish-metadata.peft-meta .author-notes {
+    color: var(--fg4);
+  }
+
+  #main.post .authors-list {
+    margin: 0.25rem 0 0.45rem;
+    color: var(--fg1);
+  }
+
+  #main.post .authors-affiliations,
+  #main.post .authors-notes {
+    margin: 0.25rem 0;
+    color: var(--fg3);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  #main.post .post-links {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 0.9rem 0 0;
+    flex-wrap: wrap;
+  }
+
+  #main.post .post-links a.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 5px 13px 5px 11px;
+    border: 1px solid color-mix(in srgb, var(--fg4) 35%, var(--bg) 65%);
+    border-radius: 999px;
+    background: var(--bg);
+    color: var(--fg2);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
+    text-decoration: none;
+    transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+  }
+
+  #main.post .post-links a.btn:hover {
+    color: var(--fg);
+    border-color: color-mix(in srgb, var(--fg) 50%, var(--bg) 50%);
+    background: color-mix(in srgb, var(--fg) 4%, var(--bg) 96%);
+  }
+
+  #main.post .post-links a.btn svg {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+  }
+
+  #main.post .post-cover img.peft-cover {
+    display: block;
+    width: min(100%, 980px);
+    height: auto;
+    margin: 0.5rem auto 0.5rem;
+    border: 1px solid color-mix(in srgb, var(--fg4) 16%, var(--bg) 84%);
+    border-radius: 5px;
+  }
+
+  @media (min-width: 1120px) {
+    #main.post .left-toc {
+      margin-right: calc(var(--toc-gap) + 72px);
+    }
+  }
+
+  #main.post article.content p.lead {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--fg1);
+  }
+
+  #main.post article.content .tldr-list,
+  #main.post article.content .lesson-list {
+    margin: 1rem 0 1.6rem;
+    padding-left: 1.3rem;
+  }
+
+  #main.post article.content .tldr-list li,
+  #main.post article.content .lesson-list li {
+    margin: 0.55rem 0;
+  }
+
+  #main.post figure.bordered img {
+    border: 1px solid color-mix(in srgb, var(--fg4) 18%, var(--bg) 82%);
+    border-radius: 4px;
+  }
+
+  #main.post figure img.image-75 {
+    display: block;
+    width: 65%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  #main.post figure.text-width {
+    width: 100%;
+  }
+
+  #main.post figure.half-width {
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  #main.post figure.wide {
+    width: min(980px, calc(100vw - 48px));
+    margin-left: 50%;
+    transform: translateX(-50%);
+  }
+
+  #main.post .protocol-grid,
+  #main.post .metric-grid,
+  #main.post .conclusion-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0;
+    border: 1px solid color-mix(in srgb, var(--fg4) 18%, var(--bg) 82%);
+    border-radius: 4px;
+    margin: 1.4rem 0 2rem;
+    overflow: hidden;
+  }
+
+  #main.post .protocol-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  #main.post .conclusion-grid {
+    grid-template-columns: 1fr;
+  }
+
+  #main.post .protocol-grid .card,
+  #main.post .metric-grid .card,
+  #main.post .conclusion-grid .card {
+    padding: 1rem 1.1rem;
+    border-right: 1px solid color-mix(in srgb, var(--fg4) 14%, var(--bg) 86%);
+    border-bottom: 1px solid color-mix(in srgb, var(--fg4) 14%, var(--bg) 86%);
+    background: var(--bg);
+  }
+
+  #main.post .protocol-grid .card:last-child,
+  #main.post .metric-grid .card:nth-child(3n),
+  #main.post .conclusion-grid .card {
+    border-right: 0;
+  }
+
+  #main.post .metric-grid .card:nth-last-child(-n+3),
+  #main.post .protocol-grid .card,
+  #main.post .conclusion-grid .card:last-child {
+    border-bottom: 0;
+  }
+
+  #main.post .card-num {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--fg4);
+    font-weight: 500;
+    margin-bottom: 0.35rem;
+  }
+
+  #main.post .card-title {
+    font-family: 'Iowan Old Style BT', Georgia, serif;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: 0.3rem;
+  }
+
+  #main.post .card-text {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--fg3);
+    margin: 0;
+  }
+
+  #main.post .benchmark-table-wrap {
+    width: min(1040px, calc(100vw - 48px));
+    margin: 1.4rem 0 1.6rem 50%;
+    overflow-x: auto;
+    transform: translateX(-50%);
+    border: 1px solid color-mix(in srgb, var(--fg4) 18%, var(--bg) 82%);
+    border-radius: 4px;
+    background: var(--bg);
+  }
+
+  #main.post table.benchmark-table {
+    width: 100%;
+    min-width: 850px;
+    border-collapse: collapse;
+    font-family: var(--font-sans);
+    font-size: 13.5px;
+  }
+
+  #main.post table.benchmark-table caption {
+    caption-side: bottom;
+    padding: 0.8rem 1rem 0.95rem;
+    color: var(--fg3);
+    font-size: 13px;
+    line-height: 1.45;
+    text-align: left;
+  }
+
+  #main.post table.benchmark-table thead th {
+    text-align: left;
+    font-weight: 600;
+    color: var(--fg);
+    padding: 0.6rem 0.55rem;
+    border-bottom: 1.5px solid var(--fg);
+    font-size: 12.5px;
+    white-space: nowrap;
+  }
+
+  #main.post table.benchmark-table tbody td {
+    padding: 0.58rem 0.55rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--fg4) 14%, var(--bg) 86%);
+    color: var(--fg2);
+    vertical-align: top;
+    white-space: nowrap;
+  }
+
+  #main.post table.benchmark-table tbody tr.row-highlight td {
+    background: color-mix(in srgb, var(--fg_code) 8%, var(--bg) 92%);
+    color: var(--fg);
+  }
+
+  #main.post table.benchmark-table tbody tr.group td {
+    background: color-mix(in srgb, var(--fg4) 8%, var(--bg) 92%);
+    color: var(--fg);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  #main.post .evidence-table-wrap {
+    margin: 1.1rem 0 1.45rem;
+    overflow-x: auto;
+    border: 1px solid color-mix(in srgb, var(--fg4) 18%, var(--bg) 82%);
+    border-radius: 4px;
+    background: var(--bg);
+  }
+
+  #main.post table.evidence-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-sans);
+    font-size: 13px;
+  }
+
+  #main.post table.evidence-table caption {
+    caption-side: bottom;
+    padding: 0.65rem 0.8rem 0.8rem;
+    color: var(--fg3);
+    font-size: 12.5px;
+    line-height: 1.45;
+    text-align: left;
+  }
+
+  #main.post table.evidence-table th,
+  #main.post table.evidence-table td {
+    padding: 0.48rem 0.62rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--fg4) 14%, var(--bg) 86%);
+    text-align: left;
+    vertical-align: top;
+  }
+
+  #main.post table.evidence-table th {
+    color: var(--fg);
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  #main.post table.evidence-table td {
+    color: var(--fg2);
+  }
+
+  #main.post table.evidence-table tr:last-child td {
+    border-bottom: 0;
+  }
+
+  #main.post .citation-note {
+    color: var(--fg3);
+    font-family: var(--font-sans);
+    font-size: 12px;
+    line-height: 1.42;
+  }
+
+  #main.post .citation-note-heading {
+    margin: 0 0 0.35rem;
+    color: var(--fg);
+    font-family: 'Iowan Old Style BT', Georgia, serif;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  #main.post .citation-note ol {
+    margin: 0;
+    padding-left: 1.05rem;
+  }
+
+  #main.post .citation-note li {
+    margin: 0.42rem 0;
+  }
+
+  #main.post .citation-note em {
+    color: var(--fg2);
+    font-style: normal;
+    font-weight: 500;
+  }
+
+  #main.post .protocol-grid .sidenote-number:after {
+    font-size: 0.7rem;
+    top: -0.45rem;
+  }
+
+  #main.post .method-cite-ref {
+    color: var(--fg4);
+    font-family: 'Iowan Old Style BT', Georgia, serif;
+    font-size: 0.72em;
+    font-weight: 600;
+    margin-left: 0.08em;
+    position: relative;
+    top: -0.2em;
+  }
+
+  #main.post .method-citation-note {
+    margin-top: -0.2rem;
+  }
+
+  #main.post .formula {
+    border-left: 3px solid color-mix(in srgb, var(--fg) 45%, var(--bg) 55%);
+    padding: 0.8rem 1rem;
+    margin: 1rem 0 1.4rem;
+    background: color-mix(in srgb, var(--fg_code) 7%, var(--bg) 93%);
+    font-family: var(--font-sans);
+    color: var(--fg2);
+  }
+
+  #main.post .formula .formula-display,
+  #main.post .metric-grid .formula-display {
+    display: block;
+    margin: 0.55rem 0 0.45rem;
+    overflow-x: auto;
+    font-family: 'Source Serif 4', 'Times New Roman', serif;
+    font-size: 16px;
+    font-style: italic;
+    font-variant-numeric: lining-nums;
+    line-height: 1.65;
+    color: var(--fg);
+    white-space: nowrap;
+  }
+
+  #main.post .metric-grid .formula-display {
+    font-size: 13.5px;
+    line-height: 1.5;
+    white-space: normal;
+  }
+
+  #main.post .formula .formula-display sub,
+  #main.post .formula .formula-display sup,
+  #main.post .metric-grid .formula-display sub,
+  #main.post .metric-grid .formula-display sup {
+    font-style: normal;
+    line-height: 0;
+  }
+
+  #main.post .formula .formula-note {
+    display: block;
+    color: var(--fg3);
+    font-size: 13.5px;
+    line-height: 1.5;
+  }
+
+  #main.post .resource-row {
+    display: grid;
+    grid-template-columns: minmax(180px, 0.75fr) minmax(0, 1.25fr);
+    gap: 1.25rem;
+    align-items: start;
+    margin: 1.2rem 0 1.8rem;
+  }
+
+  #main.post .paper-preview {
+    display: block;
+    width: 100%;
+    border: 1px solid color-mix(in srgb, var(--fg4) 18%, var(--bg) 82%);
+    border-radius: 4px;
+  }
+
+  #main.post .resource-box {
+    border: 1px solid color-mix(in srgb, var(--fg4) 18%, var(--bg) 82%);
+    border-radius: 4px;
+    padding: 1rem 1.1rem;
+  }
+
+  @media (max-width: 760px) {
+    #main.post .protocol-grid,
+    #main.post .metric-grid,
+    #main.post .resource-row {
+      grid-template-columns: 1fr;
+    }
+    #main.post .protocol-grid .card,
+    #main.post .metric-grid .card {
+      border-right: 0 !important;
+      border-bottom: 1px solid color-mix(in srgb, var(--fg4) 14%, var(--bg) 86%) !important;
+    }
+    #main.post .protocol-grid .card:last-child,
+    #main.post .metric-grid .card:last-child {
+      border-bottom: 0 !important;
+    }
+  }
+</style>
 </head>
 <body>
+<div id="wrapper">
 
-<section class="hero project-hero">
-  <div class="hero-body">
-    <div class="container is-max-desktop">
-      <div class="hero-pill">Research Blog</div>
-      <h1 class="title publication-title">
-        <span class="title-emphasis">PEFT-Arena</span>: Understanding Parameter-Efficient Finetuning from a Stability-Plasticity Perspective
-      </h1>
-      <p class="hero-tagline">
-        PEFT methods should be evaluated by target gains, general-capability retention, and the geometry of capability disruption.
-      </p>
+  <header id="header">
+    <div id="site-header" class="site-header">
+      <div class="navbar-logo">
+        <a href="https://spherelab.ai/blog">Rotating Sphere</a>
+      </div>
+    </div>
+  </header>
 
-      <div class="publication-authors">
-        <span class="author-block"><a href="https://huangyangyi.github.io/" target="_blank" rel="noopener">Yangyi Huang</a><sup>1</sup></span>
-        <span class="author-block"><a href="https://scholar.google.com.sg/citations?hl=en&amp;scioq=GLaMM&amp;user=l_eLH4MAAAAJ" target="_blank" rel="noopener">Ruotian Peng</a><sup>2</sup></span>
-        <span class="author-block"><a href="https://scholar.google.com/citations?hl=de&amp;user=7y5RN9wAAAAJ" target="_blank" rel="noopener">Zeju Qiu</a><sup>3</sup></span>
-        <span class="author-block"><a href="https://scholar.google.com/citations?hl=zh-CN&amp;user=tMihzcoAAAAJ" target="_blank" rel="noopener">Jiale Kang</a><sup>1</sup></span>
-        <span class="author-block"><a href="https://ydwen.github.io/" target="_blank" rel="noopener">Yandong Wen</a><sup>2</sup></span>
-        <span class="author-block"><a href="https://www.mpg.de/390896/intelligente_systeme_tuebingen_wissM2" target="_blank" rel="noopener">Bernhard Sch&ouml;lkopf</a><sup>3</sup></span>
-        <span class="author-block"><a href="https://wyliu.com/" target="_blank" rel="noopener">Weiyang Liu</a><sup>1,3</sup></span>
+  <main id="main" class="post post-peft-arena">
+
+    <div class="post-heading">
+      <h1 class="post-title">PEFT-Arena: Understanding Parameter-Efficient Finetuning from a Stability-Plasticity Perspective</h1>
+
+      <div class="publish-metadata peft-meta">
+        <span class="author">
+          Yangyi Huang<sup>1,&dagger;</sup>,
+          Ruotian Peng<sup>2,&dagger;</sup>,
+          Zeju Qiu<sup>3</sup>,
+          Jiale Kang<sup>1</sup>,
+          Yandong Wen<sup>2</sup>,
+          Bernhard Sch&ouml;lkopf<sup>3</sup>,
+          Weiyang Liu<sup>1,3,*</sup>
+        </span>
+        <span class="affiliations"><sup>1</sup>The Chinese University of Hong Kong &nbsp; <sup>2</sup>Westlake University &nbsp; <sup>3</sup>Max Planck Institute for Intelligent Systems, T&uuml;bingen</span>
+        <span class="author-notes"><sup>&dagger;</sup>Equal contribution &nbsp; <sup>*</sup>Corresponding author</span>
+        <span class="meta-sub">A stability-plasticity benchmark and geometry-based diagnosis of parameter-efficient finetuning.</span>
+        <span>May 2026</span>
       </div>
 
-      <div class="affiliation-block">
-        <span><sup>1</sup>The Chinese University of Hong Kong</span>
-        <span><sup>2</sup>Westlake University</span>
-        <span><sup>3</sup>Max Planck Institute for Intelligent Systems, T&uuml;bingen</span>
-      </div>
-
-      <div class="publication-links">
-        <a href="https://openreview.net/forum?id=HHplQA8fY8" class="button project-button is-rounded" target="_blank" rel="noopener">
-          <span class="icon"><i class="fas fa-book-open"></i></span>
+      <div class="post-links">
+        <a class="btn" href="https://openreview.net/forum?id=HHplQA8fY8" target="_blank" rel="noopener noreferrer">
           <span>Paper</span>
         </a>
-        <a href="https://github.com/Sphere-AI-Lab/PEFT-Arena" class="button project-button is-rounded" target="_blank" rel="noopener">
-          <span class="icon"><i class="fab fa-github"></i></span>
+        <a class="btn" href="https://github.com/Sphere-AI-Lab/PEFT-Arena" target="_blank" rel="noopener noreferrer">
+          <svg aria-hidden="true" focusable="false" viewBox="0 0 16 16" fill="currentColor">
+            <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0016 8c0-4.42-3.58-8-8-8z"></path>
+          </svg>
           <span>Code</span>
         </a>
-        <a href="#citation" class="button project-button is-rounded">
-          <span class="icon"><i class="fas fa-quote-right"></i></span>
+        <a class="btn" href="#citation">
           <span>Citation</span>
         </a>
       </div>
     </div>
-  </div>
-</section>
 
-<main class="blog-shell">
-  <article class="blog-article">
-    <section class="blog-section blog-intro" id="introduction">
-      <div class="blog-figure blog-figure-bleed">
-        <img src="./static/images/teaser-overview.png" alt="PEFT-Arena teaser: benchmark, internal geometry analysis, and pathwise interpolation">
-        <p>PEFT-Arena studies PEFT through a single diagnostic chain: external stability-plasticity trade-offs, internal geometry, and pathwise interpolation.</p>
-      </div>
+    <div class="wide post-cover">
+      <img class="peft-cover" src="static/images/teaser-overview.png" alt="PEFT-Arena overview">
+    </div>
 
-      <p class="blog-kicker">TL;DR</p>
-      <p class="blog-lead">
-        PEFT evaluation should ask not only <strong>what improves</strong>, but also <strong>what is forgotten</strong> and <strong>why</strong>. PEFT-Arena benchmarks target adaptation and general retention, then traces forgetting back to weight-space update geometry, activation-space distortion, and interpolation paths.
-      </p>
+    <div class="post-content-shell">
 
-      <div class="blog-callout">
-        <strong>Main message.</strong> Target-only evaluation is incomplete. The same target score can hide very different levels of general-capability retention, and those differences are tied to how each PEFT parameterization perturbs pretrained geometry.
-      </div>
-
-      <nav class="blog-toc" aria-label="Page contents">
-        <a href="#evaluation-gap">Evaluation gap</a>
-        <a href="#benchmark">Benchmark</a>
-        <a href="#geometry">Internal geometry</a>
-        <a href="#interpolation">Interpolation</a>
-        <a href="#resources">Resources</a>
+      <nav id="left-toc" class="left-toc has-active-marker" aria-label="Table of contents">
+        <ul class="toc-list">
+          <li class="toc-item is-marker-target is-active"><a href="#introduction" class="is-active" aria-current="location">Introduction</a></li>
+          <li class="toc-item"><a href="#abstract">Abstract</a></li>
+          <li class="toc-item"><a href="#target-accuracy">Target accuracy</a></li>
+          <li class="toc-item"><a href="#benchmark">Benchmark table</a></li>
+          <li class="toc-item"><a href="#mechanisms">From scores to mechanisms</a></li>
+          <li class="toc-item"><a href="#weight-space">Weight-space geometry</a></li>
+          <li class="toc-item"><a href="#csd">Capability-conditioned drift</a></li>
+          <li class="toc-item"><a href="#activation-space">Activation-space geometry</a></li>
+          <li class="toc-item"><a href="#interpolation">Interpolation</a></li>
+          <li class="toc-item"><a href="#lessons">What we learn</a></li>
+          <li class="toc-item"><a href="#resources">Resources</a></li>
+          <li class="toc-item"><a href="#authors">Authors</a></li>
+          <li class="toc-item"><a href="#citation">Citation</a></li>
+        </ul>
+        <span class="toc-active-marker" aria-hidden="true" style="--toc-active-marker-y: 0px;"></span>
       </nav>
-    </section>
 
-    <section class="blog-section" id="evaluation-gap">
-      <h2>Why target accuracy is not enough</h2>
-      <p>
-        Parameter-efficient finetuning is often evaluated by a single downstream number. That misses the stability-plasticity dilemma: a model can learn a target domain while eroding instruction following, factual recall, or broad reasoning. PEFT-Arena makes this trade-off explicit by reporting target-domain adaptation together with retained general capability.
-      </p>
-      <div class="blog-grid blog-grid-three">
-        <div class="mini-note">
-          <span>01</span>
-          <strong>Target-only evaluation is incomplete.</strong>
-          <p>Improving math or medical reasoning is not sufficient if the model breaks general abilities.</p>
+      <article class="content">
+
+        <blockquote id="introduction" class="epigraph">
+          PEFT evaluation should ask not only what improves, but also what is forgotten and why.
+        </blockquote>
+
+        <p id="abstract" class="lead">
+          Parameter-efficient finetuning is usually sold as an affordable way to adapt large language models. PEFT-Arena asks a less comfortable question: when a PEFT method improves the target task, what pretrained capabilities does it trade away? We benchmark this target-retention trade-off, then diagnose it through weight-space geometry, activation-space geometry, and interpolation paths.
+        </p>
+
+        <ul class="tldr-list">
+          <li><strong>Target-only evaluation is not comprehensive.</strong> Full finetuning can deliver strong target gains while erasing general capabilities.</li>
+          <li><strong>PEFT methods form different stability-plasticity frontiers.</strong> OFT often gives a better retention-adaptation balance than additive low-rank methods at comparable budgets.</li>
+          <li><strong>Forgetting is tied to geometry distortion.</strong> Weight-space profiles show where updates act; activation-space metrics show whether general representations remain structurally stable.</li>
+          <li><strong>Interpolation diagnoses overshoot.</strong> SFT checkpoints often move beyond the best target-retention point, and interpolation should follow the geometry of each PEFT parameterization.</li>
+        </ul>
+
+        <h2 id="target-accuracy">Why target accuracy is not enough</h2>
+
+        <p>
+          PEFT is usually evaluated by a downstream score: did math accuracy improve, did medical QA improve, did reward optimization help? But this hides the other half of adaptation. A model can become better on the target distribution while becoming worse at following instructions, recalling factual knowledge, or solving general reasoning tasks.
+        </p>
+
+        <p>
+          This is the stability-plasticity dilemma. Plasticity asks how much the model learns from the new domain. Stability asks how much pretrained capability survives the update. PEFT-Arena treats both as first-class evaluation axes.
+        </p>
+
+        <blockquote>
+          A PEFT method is not strong if it only learns the target task by spending pretrained capabilities.
+        </blockquote>
+
+        <h2 id="benchmark">The benchmark: read the table horizontally</h2>
+
+        <p>
+          PEFT-Arena evaluates Qwen2.5-7B and Llama3.2-3B-Instruct under supervised finetuning and RLVR with GRPO. We adapt to mathematical and medical reasoning, then evaluate retained general ability on IFEval, NQ, and BBH. Each cell below reports <strong>Target / General</strong> average accuracy.
+        </p>
+
+        <div class="benchmark-table-wrap" role="region" aria-label="Representative main benchmark results" tabindex="0">
+          <table class="benchmark-table">
+            <caption>Representative rows from the main benchmark table. Each metric cell reports Target / General average accuracy (%).</caption>
+            <thead>
+              <tr>
+                <th>Train</th>
+                <th>Method</th>
+                <th>Setting</th>
+                <th>Qwen Math</th>
+                <th>Qwen Med</th>
+                <th>Llama Math</th>
+                <th>Llama Med</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="group"><td colspan="7">Supervised finetuning (SFT)</td></tr>
+              <tr><td>SFT</td><td>Base</td><td>--</td><td>35.30 / 46.97</td><td>46.36 / 46.97</td><td>27.80 / 53.03</td><td>41.44 / 53.03</td></tr>
+              <tr><td>SFT</td><td>Full FT</td><td>--</td><td>50.63 / 34.22</td><td>53.63 / 34.41</td><td>33.90 / 39.83</td><td>44.26 / 26.03</td></tr>
+              <tr class="row-highlight"><td>SFT</td><td>OFT</td><td>block 32</td><td>46.93 / 44.37</td><td>48.63 / 42.40</td><td>30.60 / 40.73</td><td>39.50 / 40.50</td></tr>
+              <tr><td>SFT</td><td>LoRA</td><td>r8a16</td><td>42.47 / 39.22</td><td>47.91 / 36.06</td><td>24.07 / 36.57</td><td>38.34 / 27.99</td></tr>
+              <tr><td>SFT</td><td>PiSSA</td><td>r8a16</td><td>44.53 / 24.78</td><td>26.16 / 18.05</td><td>0.67 / 9.74</td><td>21.17 / 12.92</td></tr>
+              <tr><td>SFT</td><td>KeepLoRA</td><td>r8</td><td>40.53 / 43.75</td><td>45.60 / 47.09</td><td>15.20 / 40.74</td><td>41.26 / 39.52</td></tr>
+              <tr><td>SFT</td><td>VeRA</td><td>r256</td><td>39.43 / 47.25</td><td>28.50 / 47.01</td><td>28.80 / 46.79</td><td>40.68 / 48.94</td></tr>
+              <tr class="group"><td colspan="7">RLVR with GRPO</td></tr>
+              <tr><td>RLVR</td><td>Full FT</td><td>--</td><td>47.57 / 48.68</td><td>46.24 / 43.22</td><td>29.80 / 52.20</td><td>45.88 / 51.81</td></tr>
+              <tr class="row-highlight"><td>RLVR</td><td>OFT</td><td>block 32</td><td>47.90 / 48.90</td><td>46.79 / 47.24</td><td>29.97 / 50.04</td><td>44.99 / 52.31</td></tr>
+              <tr><td>RLVR</td><td>LoRA</td><td>r8a16</td><td>46.93 / 48.27</td><td>47.08 / 42.80</td><td>28.83 / 52.17</td><td>44.97 / 53.53</td></tr>
+            </tbody>
+          </table>
         </div>
-        <div class="mini-note">
-          <span>02</span>
-          <strong>Retention is a first-class metric.</strong>
-          <p>We evaluate general capability with IFEval, NQ, and BBH alongside target-domain scores.</p>
+
+        <p>
+          The table should be read horizontally. Full FT often maximizes the target column, but it spends a large amount of general capability to get there. PiSSA is a more extreme failure mode: it can improve or even destabilize target performance while severely damaging general retention. OFT does not always maximize target accuracy, but it often preserves substantially more general ability for comparable target gains. RLVR behaves differently from SFT: at the evaluated horizon, it obtains target gains with much weaker general erosion.
+        </p>
+
+        <div class="evidence-table-wrap">
+          <table class="evidence-table">
+            <caption>Concrete examples from the benchmark. All deltas are percentage-point changes relative to the corresponding base model.</caption>
+            <thead>
+              <tr>
+                <th>Observation</th>
+                <th>Example</th>
+                <th>Evidence</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Target gains can spend general ability.</td>
+                <td>Qwen SFT math Full FT</td>
+                <td>Target rises 35.30 -> 50.63, while General falls 46.97 -> 34.22.</td>
+              </tr>
+              <tr>
+                <td>OFT is a stronger SFT frontier point.</td>
+                <td>Qwen SFT math OFT-b32</td>
+                <td>Target reaches 46.93 with only -2.60 General drop, compared with LoRA-r8's -7.75 drop.</td>
+              </tr>
+              <tr>
+                <td>RLVR is less forgetting-prone at this horizon.</td>
+                <td>Qwen RLVR math OFT-b32</td>
+                <td>Target rises to 47.90 and General also improves to 48.90.</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <div class="mini-note">
-          <span>03</span>
-          <strong>Parameterization matters.</strong>
-          <p>Full FT, LoRA-style updates, PiSSA, MiLoRA, OFT, and IA<sup>3</sup> produce different frontiers.</p>
+
+        <div class="protocol-grid">
+          <div class="card"><div class="card-num">Models</div><div class="card-text">Qwen2.5-7B, Llama3.2-3B-Instruct</div></div>
+          <div class="card"><div class="card-num">Targets</div><div class="card-text">Math and medical reasoning</div></div>
+          <div class="card"><div class="card-num">Retention</div><div class="card-text">IFEval, NQ, BBH</div></div>
+          <div class="card"><div class="card-num">Training</div><div class="card-text">SFT and RLVR</div></div>
+          <div class="card">
+            <div class="card-num">Methods</div>
+            <div class="card-text">
+              Full FT,
+              LoRA family<sup class="method-cite-ref">1</sup>,
+              OFT<sup class="method-cite-ref">2</sup>,
+              IA<sup>3</sup><sup class="method-cite-ref">3</sup>
+            </div>
+          </div>
         </div>
-      </div>
-    </section>
 
-    <section class="blog-section" id="benchmark">
-      <h2>The benchmark table is the first warning sign</h2>
-      <p>
-        PEFT-Arena evaluates Qwen2.5-7B and Llama3.2-3B-Instruct under supervised finetuning and RLVR with GRPO. The target domains are mathematical and medical reasoning; the retention side is measured with general benchmarks. Reading the main benchmark table horizontally reveals the central pattern: the same target improvement can come with very different retention costs.
-      </p>
-      <div class="benchmark-table-wrap" role="region" aria-label="Representative main benchmark results" tabindex="0">
-        <table class="benchmark-table">
-          <caption>Representative rows from the main benchmark table. Each metric cell reports Target / General average accuracy (%).</caption>
-          <thead>
-            <tr>
-              <th>Train</th>
-              <th>Method</th>
-              <th>Setting</th>
-              <th>Qwen Math</th>
-              <th>Qwen Med</th>
-              <th>Llama Math</th>
-              <th>Llama Med</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="table-group-row"><td colspan="7">Supervised finetuning (SFT)</td></tr>
-            <tr>
-              <td>SFT</td><td>Base</td><td>--</td>
-              <td>35.30 / 46.97</td><td>46.36 / 46.97</td><td>27.80 / 53.03</td><td>41.44 / 53.03</td>
-            </tr>
-            <tr>
-              <td>SFT</td><td>Full FT</td><td>--</td>
-              <td><strong>50.63</strong> / 34.22</td><td><strong>53.63</strong> / 34.41</td><td>33.90 / 39.83</td><td>44.26 / 26.03</td>
-            </tr>
-            <tr>
-              <td>SFT</td><td>OFT</td><td>block 32</td>
-              <td>46.93 / <strong>44.37</strong></td><td>48.63 / 42.40</td><td>30.60 / 40.73</td><td>39.50 / 40.50</td>
-            </tr>
-            <tr>
-              <td>SFT</td><td>LoRA</td><td>r8a16</td>
-              <td>42.47 / 39.22</td><td>47.91 / 36.06</td><td>24.07 / 36.57</td><td>38.34 / 27.99</td>
-            </tr>
-            <tr>
-              <td>SFT</td><td>PiSSA</td><td>r8a16</td>
-              <td>44.53 / 24.78</td><td>26.16 / 18.05</td><td>0.67 / 9.74</td><td>21.17 / 12.92</td>
-            </tr>
-            <tr>
-              <td>SFT</td><td>KeepLoRA</td><td>r8</td>
-              <td>40.53 / 43.75</td><td>45.60 / <strong>47.09</strong></td><td>15.20 / 40.74</td><td>41.26 / 39.52</td>
-            </tr>
-            <tr>
-              <td>SFT</td><td>VeRA</td><td>r256</td>
-              <td>39.43 / <strong>47.25</strong></td><td>28.50 / 47.01</td><td>28.80 / 46.79</td><td>40.68 / 48.94</td>
-            </tr>
-            <tr class="table-group-row"><td colspan="7">RLVR with GRPO</td></tr>
-            <tr>
-              <td>RLVR</td><td>Full FT</td><td>--</td>
-              <td>47.57 / 48.68</td><td>46.24 / 43.22</td><td>29.80 / 52.20</td><td>45.88 / 51.81</td>
-            </tr>
-            <tr>
-              <td>RLVR</td><td>OFT</td><td>block 32</td>
-              <td><strong>47.90</strong> / <strong>48.90</strong></td><td>46.79 / <strong>47.24</strong></td><td><strong>29.97</strong> / 50.04</td><td>44.99 / 52.31</td>
-            </tr>
-            <tr>
-              <td>RLVR</td><td>LoRA</td><td>r8a16</td>
-              <td>46.93 / 48.27</td><td>47.08 / 42.80</td><td>28.83 / 52.17</td><td>44.97 / <strong>53.53</strong></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <p>
-        Full FT often maximizes target accuracy, but it spends a large amount of general capability to get there. OFT does not always maximize the target column, but it gives a stronger target-retention balance at a comparable PEFT budget. RLVR is a different regime: at the evaluated horizon, target gains are achieved with much less general erosion.
-      </p>
-      <div class="protocol-strip blog-protocol-strip">
-        <div class="protocol-mini"><strong>Models</strong><span>Qwen2.5-7B, Llama3.2-3B-Instruct</span></div>
-        <div class="protocol-mini"><strong>Training</strong><span>SFT and RLVR with GRPO</span></div>
-        <div class="protocol-mini"><strong>Targets</strong><span>Math and medical reasoning</span></div>
-        <div class="protocol-mini"><strong>Retention</strong><span>IFEval, NQ, BBH</span></div>
-        <div class="protocol-mini"><strong>Methods</strong><span>Full FT, LoRA family, OFT, IA<sup>3</sup></span></div>
-      </div>
-    </section>
+        <span class="sidenote citation-note method-citation-note" data-note="1"><span class="citation-note-heading">LoRA family</span><br>Hu et al. <em>LoRA: Low-Rank Adaptation of Large Language Models</em>. ICLR 2022.<br>Zhang et al. <em>AdaLoRA: Adaptive Budget Allocation for Parameter-Efficient Fine-Tuning</em>. ICLR 2023.<br>Liu et al. <em>DoRA: Weight-Decomposed Low-Rank Adaptation</em>. arXiv 2024.<br>Kopiczko et al. <em>VeRA: Vector-Based Random Matrix Adaptation</em>. ICLR 2024.<br>Meng et al. <em>PiSSA: Principal Singular Values and Singular Vectors Adaptation</em>. NeurIPS 2024.<br>Wang et al. <em>MiLoRA: Harnessing Minor Singular Components for PEFT</em>. NAACL 2025.<br>Kang and Yin. <em>MiSS: Revisiting the Trade-off in LoRA</em>. ICLR 2026.<br>Luo et al. <em>KeepLoRA: Continual Learning with Residual Gradient Adaptation</em>. arXiv 2026.</span>
+        <span class="sidenote citation-note method-citation-note" data-note="2"><span class="citation-note-heading">Orthogonal finetuning</span><br>Qiu et al. <em>Controlling Text-to-Image Diffusion by Orthogonal Finetuning</em>. NeurIPS 2023.<br>Liu et al. <em>Parameter-Efficient Orthogonal Finetuning via Butterfly Factorization</em>. ICLR 2024.<br>Qiu et al. <em>Orthogonal Finetuning Made Scalable</em>. EMNLP 2025.</span>
+        <span class="sidenote citation-note method-citation-note" data-note="3"><span class="citation-note-heading">Activation scaling</span><br>Liu et al. <em>Few-Shot Parameter-Efficient Fine-Tuning is Better and Cheaper than In-Context Learning</em>. NeurIPS 2022.</span>
 
-    <section class="blog-section" id="geometry">
-      <h2>Internal geometry: where forgetting comes from</h2>
-      <p>
-        Benchmark scores say what changed, but not how. PEFT-Arena therefore analyzes PEFT updates from two internal views. In weight space, spectral profiles describe how update energy interacts with pretrained singular directions. In activation space, Procrustes residual, Gram distortion, and CKA test whether finetuning preserves the relational geometry of general-evaluation representations.
-      </p>
-      <figure class="blog-figure">
-        <img src="./static/images/spectral-analysis.png" alt="Weight-space spectral retention-adaptation profiling figure">
-        <figcaption>Weight-space profiles act as a visual anchor for how PEFT parameterizations perturb pretrained geometry.</figcaption>
-      </figure>
-      <p>
-        The key distinction is that raw movement is not always destructive. OFT can move activations through rotation-like transformations, while preserving more of their relational structure. Forgetting is more closely tied to non-isometric distortion of general representations than to displacement alone.
-      </p>
-      <div class="blog-callout blog-callout-soft">
-        <strong>Three diagnostics.</strong> Weight profiles describe update bias; capability-conditioned drift measures how strongly general and target data activate changed directions; activation geometry measures non-isometric distortion with Procrustes, Gram, and CKA.
-      </div>
-    </section>
+        <h2 id="mechanisms">From scores to mechanisms</h2>
 
-    <section class="blog-section" id="interpolation">
-      <h2>Interpolation as pathwise diagnosis</h2>
-      <p>
-        A final checkpoint is only one point on an adaptation path. Interpolation asks whether the model moved farther than necessary. In SFT, intermediate points often recover general ability while preserving much of the target gain, revealing an overshoot region that final-checkpoint evaluation hides.
-      </p>
-      <div class="blog-grid blog-grid-two">
-        <figure class="blog-figure blog-figure-compact">
-          <img src="./static/images/tradeoff-curve-alt.png" alt="Interpolation target and general performance curves">
+        <p>
+          The benchmark tells us what happens, but not why. Two PEFT methods can have similar target gains and very different forgetting. To explain this, PEFT-Arena looks inside the model from two complementary views: weight-space geometry and activation-space geometry.
+        </p>
+
+        <h2 id="weight-space">Weight-space geometry: where does the update act?</h2>
+
+        <p>
+          In weight space, we decompose each pretrained weight matrix into its singular directions. This gives us a coordinate system for asking where the finetuned update acts.
+        </p>
+
+        <p>
+          We use two profiles. The retention profile measures how much the finetuned weight deviates along the pretrained singular structure. The adaptation profile measures where update energy is injected across pretrained directions. These profiles are descriptive: they show the inductive bias of a PEFT parameterization rather than serving as a complete theory of forgetting.
+        </p>
+
+        <figure class="text-width bordered">
+          <img src="static/images/spectral-analysis.png" alt="Weight-space spectral retention-adaptation profiling">
+          <figcaption>Weight-space profiles show where PEFT updates preserve, disrupt, or inject energy into the pretrained spectral basis.</figcaption>
+        </figure>
+
+        <p>
+          Full FT and PiSSA visibly disrupt the retention profile. LoRA, MiSS, PiSSA, and AdaLoRA often allocate update energy in spiky directions. PiSSA is especially unstable: it updates principal components strongly, but it also remains spiky across the rest of the spectrum. OFT is more structured because it updates through an orthogonal parameterization, which tends to preserve pretrained spectral geometry better.
+        </p>
+
+        <blockquote>
+          Weight-space geometry tells us where a PEFT update acts, but not whether those directions matter for a capability distribution.
+        </blockquote>
+
+        <h2 id="csd">Capability-conditioned drift: does the data use those directions?</h2>
+
+        <p>
+          A large weight update is not automatically harmful. It matters whether general examples actually activate the changed directions. Capability-conditioned drift measures the effect of the update on pretrained activations from a dataset. We compute it separately for general data and target-domain data.
+        </p>
+
+        <div class="formula">
+          <strong>Capability-conditioned drift.</strong>
+          <span class="formula-display">
+            CSD<sub>rel</sub>(D) = E<sub>x,t in D</sub> ||&Delta;W h<sub>0,x,t</sub>||<sub>2</sub><sup>2</sup> / (E<sub>x,t in D</sub> ||W<sub>0</sub> h<sub>0,x,t</sub>||<sub>2</sub><sup>2</sup> + &epsilon;)
+          </span>
+          <span class="formula-note">
+            Here <code>h<sub>0,x,t</sub></code> is the base-model activation for token <code>t</code> in example <code>x</code>. The metric asks how strongly an update perturbs activations drawn from a capability distribution.
+          </span>
+        </div>
+
+        <p>
+          General CSD is associated with forgetting, while target CSD is not a clean monotonic predictor of target gain. This suggests that retention is more directly tied to perturbing general-distribution activations, whereas target adaptation depends on whether the change is task-aligned.
+        </p>
+
+        <div class="evidence-table-wrap">
+          <table class="evidence-table">
+            <caption>SFT-only CSD evidence at layer18 <code>mlp.down_proj</code>. General CSD tracks retention-side damage better than target CSD tracks target gains.</caption>
+            <thead>
+              <tr>
+                <th>Metric</th>
+                <th>External quantity</th>
+                <th>Pearson</th>
+                <th>Spearman</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>CSD<sub>G,rel</sub></td><td>Forgetting</td><td>0.347</td><td>0.317</td></tr>
+              <tr><td>CSD<sub>G,un</sub></td><td>Forgetting</td><td>0.481</td><td>0.603</td></tr>
+              <tr><td>CSD<sub>T,rel</sub></td><td>Target gain</td><td>-0.164</td><td>0.107</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="evidence-table-wrap">
+          <table class="evidence-table">
+            <caption>Method-family CSD summary on the SFT-only subset. Raw CSD must be interpreted with parameterization in mind: OFT can move activations via rotation, while PiSSA is the clearest high-drift/high-forgetting outlier.</caption>
+            <thead>
+              <tr>
+                <th>Family</th>
+                <th>CSD<sub>G,rel</sub></th>
+                <th>CSD<sub>T,rel</sub></th>
+                <th>Ratio</th>
+                <th>Forget</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Full FT</td><td>1.16e-3</td><td>1.06e-3</td><td>1.077</td><td>17.31</td></tr>
+              <tr><td>LoRA</td><td>1.21e-3</td><td>1.21e-3</td><td>1.042</td><td>15.70</td></tr>
+              <tr><td>OFT</td><td>7.82e-3</td><td>7.64e-3</td><td>1.018</td><td>11.20</td></tr>
+              <tr><td>PiSSA</td><td>8.94e-2</td><td>8.37e-2</td><td>1.102</td><td>34.56</td></tr>
+              <tr><td>MiLoRA</td><td>7.17e-4</td><td>6.46e-4</td><td>1.288</td><td>16.35</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="activation-space">Activation-space geometry: did the representation structure survive?</h2>
+
+        <p>
+          Weight-space diagnostics still miss an important distinction: movement is not the same as damage. A representation can move through a nearly shared rotation while preserving distances, angles, and pairwise relationships. This is why raw activation drift can be misleading, especially for OFT.<sup class="method-cite-ref">4</sup>
+        </p>
+
+        <span class="sidenote citation-note" data-note="4"><span class="citation-note-heading">Representation drift and forgetting</span><br>Ramasesh et al. <em>Anatomy of Catastrophic Forgetting: Hidden Representations and Task Semantics</em>. ICLR 2021.<br>Davari et al. <em>Probing Representation Forgetting in Supervised and Unsupervised Continual Learning</em>. CVPR 2022.<br>Caccia et al. <em>New Insights on Reducing Abrupt Representation Change in Online Continual Learning</em>. ICLR 2022.</span>
+
+        <p>
+          We therefore compare base-model and finetuned-model activations on the same general examples. The main question is whether the relational geometry among examples survives finetuning.
+        </p>
+
+        <div class="metric-grid">
+          <div class="card">
+            <div class="card-title">Procrustes residual<sup class="method-cite-ref">5</sup></div>
+            <p class="card-text">
+              Remove the best global rotation, then measure leftover distortion.
+              <span class="formula-display">d<sub>proc</sub> = min<sub>R<sup>T</sup>R=I</sub> ||X<sub>1</sub>R - X<sub>0</sub>||<sub>F</sub> / (||X<sub>0</sub>||<sub>F</sub> + &epsilon;)</span>
+            </p>
+          </div>
+          <div class="card">
+            <div class="card-title">Gram distortion<sup class="method-cite-ref">6</sup></div>
+            <p class="card-text">
+              Compare pairwise cosine similarity structure among examples.
+              <span class="formula-display">d<sub>gram</sub> = ||Z<sub>1</sub>Z<sub>1</sub><sup>T</sup> - Z<sub>0</sub>Z<sub>0</sub><sup>T</sup>||<sub>F</sub> / (||Z<sub>0</sub>Z<sub>0</sub><sup>T</sup>||<sub>F</sub> + &epsilon;)</span>
+            </p>
+          </div>
+          <div class="card">
+            <div class="card-title">CKA<sup class="method-cite-ref">6</sup></div>
+            <p class="card-text">
+              Use a standard representation similarity diagnostic as a sanity check.
+              <span class="formula-display">CKA(X<sub>0</sub>, X<sub>1</sub>) = ||X<sub>0</sub><sup>T</sup>X<sub>1</sub>||<sub>F</sub><sup>2</sup> / (||X<sub>0</sub><sup>T</sup>X<sub>0</sub>||<sub>F</sub> ||X<sub>1</sub><sup>T</sup>X<sub>1</sub>||<sub>F</sub>)</span>
+            </p>
+          </div>
+        </div>
+
+        <span class="sidenote citation-note" data-note="5"><span class="citation-note-heading">Orthogonal Procrustes</span><br>Ding et al. <em>Grounding Representation Similarity Through Statistical Testing</em>. NeurIPS 2021.</span>
+        <span class="sidenote citation-note" data-note="6"><span class="citation-note-heading">Representation similarity</span><br>Kornblith et al. <em>Similarity of Neural Network Representations Revisited</em>. ICML 2019.<br>Raghu et al. <em>SVCCA: Singular Vector Canonical Correlation Analysis for Deep Learning Dynamics and Interpretability</em>. NeurIPS 2017.<br>Morcos et al. <em>Insights on Representational Similarity in Neural Networks with Canonical Correlation</em>. NeurIPS 2018.</span>
+
+        <p>
+          Procrustes residual and Gram distortion correlate with forgetting; CKA moves in the opposite direction and tracks retained general score. OFT can still move representations, but much of this movement is more rotation-like and less destructive. PiSSA shows strong non-isometric distortion, matching its severe forgetting.
+        </p>
+
+        <div class="evidence-table-wrap">
+          <table class="evidence-table">
+            <caption>Activation-geometry correlations on general data across representative SFT checkpoints and eight module locations.</caption>
+            <thead>
+              <tr>
+                <th>Metric</th>
+                <th>External quantity</th>
+                <th>Pearson</th>
+                <th>Spearman</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Procrustes residual</td><td>Forgetting</td><td>0.711</td><td>0.568</td></tr>
+              <tr><td>Gram distortion</td><td>Forgetting</td><td>0.485</td><td>0.361</td></tr>
+              <tr><td>CKA</td><td>Forgetting</td><td>-0.761</td><td>-0.711</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="evidence-table-wrap">
+          <table class="evidence-table">
+            <caption>Representative general-data module slice. Lower Procrustes/Gram and higher CKA indicate better geometry preservation.</caption>
+            <thead>
+              <tr>
+                <th>Method</th>
+                <th>Proc. ↓</th>
+                <th>Gram ↓</th>
+                <th>CKA ↑</th>
+                <th>Forget ↓</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Full FT</td><td>0.1640</td><td>0.2500</td><td>0.8654</td><td>17.31</td></tr>
+              <tr><td>LoRA</td><td>0.1808</td><td>0.2430</td><td>0.8564</td><td>15.97</td></tr>
+              <tr><td>OFT</td><td><strong>0.1279</strong></td><td><strong>0.1906</strong></td><td><strong>0.9340</strong></td><td><strong>7.81</strong></td></tr>
+              <tr><td>MiLoRA</td><td>0.1635</td><td>0.2476</td><td>0.8651</td><td>16.35</td></tr>
+              <tr><td>PiSSA</td><td>0.4376</td><td>0.8655</td><td>0.4402</td><td>34.56</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <blockquote>
+          The retention-side signal is not “how far activations move,” but whether their geometry is distorted beyond a benign rotation.
+        </blockquote>
+
+        <h2 id="interpolation">Interpolation: where along the path is stability lost?</h2>
+
+        <p>
+          A final checkpoint is only one point along the adaptation path. Interpolation asks whether the model moved farther than needed for its target gain. In SFT, intermediate points often recover general ability while preserving much of the target improvement. This reveals an overshoot region: the final checkpoint is not always the best target-retention operating point.
+        </p>
+
+        <figure class="text-width bordered">
+          <img src="static/images/tradeoff-curve-alt.png" alt="Interpolation target and general performance curves">
           <figcaption>Interpolation exposes target-retention sweet spots before the final checkpoint.</figcaption>
         </figure>
-        <figure class="blog-figure blog-figure-compact">
-          <img src="./static/images/train-vs-interp.png" alt="Training trajectory versus interpolation trajectory figure">
+
+        <p>
+          Across SFT runs, the rewinding path for Full FT and PEFT methods shows a common pattern: general ability recovers first, while target performance drops only later. This creates practical operating points that retain most of the target gain with substantially less general-capability damage. It also raises a pathwise question: is rewinding simply reversing the training trajectory, or does it trace a different route through the target-general plane? Comparing training checkpoints with interpolation points shows that the two paths are not the same. We call this an overshoot phenomenon because the final SFT checkpoint often moves past a better target-retention trade-off point, and interpolation reveals that the extra movement mainly hurts stability before it meaningfully helps plasticity.
+        </p>
+
+        <figure class="text-width bordered">
+          <img class="image-75" src="static/images/train-vs-interp.png" alt="Training trajectory versus interpolation trajectory">
           <figcaption>Training trajectories and interpolation trajectories are different paths through the target-general plane.</figcaption>
         </figure>
-      </div>
-      <p>
-        The interpolation path must match the parameterization. Full FT, LoRA, and PiSSA naturally interpolate by scaling the effective update <code>&Delta;W</code>. OFT should instead follow its Cayley-generator path; dense-weight interpolation leaves the orthogonal manifold. Layer-wise OFT rewinding is a post-hoc case study of controlling imbalanced update strength along an existing finetuning path.
-      </p>
-    </section>
 
-    <section class="blog-section" id="resources">
-      <h2>Code and resources</h2>
-      <div class="resource-row">
-        <div class="paper-card">
-          <div class="paper-label">Paper <span class="paper-note">(coming soon)</span></div>
-          <img src="./static/images/paper-preview-01.png" alt="PEFT-Arena paper first page preview" class="paper-preview">
+        <p>
+          The interpolation path must respect the PEFT parameterization. For additive methods such as Full FT, LoRA, and PiSSA, the natural path scales the effective update &Delta;W. For OFT, the update is represented by a skew-symmetric generator and a Cayley transform, so interpolation should scale the generator and stay on the orthogonal path. The difference is not only geometric: in the table below, the parameterization-aware path recovers much more general ability at a similar interpolation strength than dense-weight interpolation.
+        </p>
+
+        <div class="evidence-table-wrap">
+          <table class="evidence-table">
+            <caption>OFT path evidence on Qwen2.5-7B SFT-math with OFT-b32. The parameterization-aware path scales the Cayley generator as sqrt(alpha)Q.</caption>
+            <thead>
+              <tr>
+                <th>Path</th>
+                <th>Alpha</th>
+                <th>Math</th>
+                <th>General</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Dense delta interpolation</td><td>0.3</td><td>43.93</td><td>43.91</td></tr>
+              <tr><td>Cayley-generator interpolation</td><td>0.3</td><td><strong>45.77</strong></td><td><strong>48.64</strong></td></tr>
+              <tr><td>Final OFT checkpoint</td><td>1.0</td><td>46.93</td><td>44.37</td></tr>
+            </tbody>
+          </table>
         </div>
-        <div class="resource-card blog-resource-card">
-          <h3>What the repository includes</h3>
-          <ul>
-            <li>Training and evaluation entrypoints for SFT and RLVR.</li>
-            <li>Benchmark result tables for target domains and general retention.</li>
-            <li>Weight-space geometry analysis scripts.</li>
-            <li>Activation-geometry and CSD diagnostics.</li>
-            <li>Interpolation and post-hoc rewinding utilities.</li>
-          </ul>
-          <pre><code>bash setup_env.sh
+
+        <p>
+          Layer-wise OFT rewinding is a post-hoc case study. OFT update strengths are not balanced across depth; later layers can receive much stronger rotations than early layers. SafeScale and MinScale rescale layer generators to reduce this imbalance and can recover general ability while preserving much of the target gain.
+        </p>
+
+        <div class="evidence-table-wrap">
+          <table class="evidence-table">
+            <caption>Layer-wise OFT rewinding keeps the path on the OFT manifold while reducing over-strong layer updates. Values are Target / General.</caption>
+            <thead>
+              <tr>
+                <th>Variant</th>
+                <th>Math</th>
+                <th>Medical</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Final OFT</td><td>46.93 / 44.37</td><td>48.63 / 42.40</td></tr>
+              <tr><td>Uniform scale 0.4</td><td><strong>48.10</strong> / <strong>47.53</strong></td><td>48.83 / <strong>48.15</strong></td></tr>
+              <tr><td>Layer-wise SafeScale</td><td>47.17 / 46.69</td><td><strong>50.01</strong> / 47.61</td></tr>
+              <tr><td>Layer-wise MinScale</td><td>47.83 / 46.86</td><td>49.76 / 47.79</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="lessons">What we learn</h2>
+
+        <ul class="lesson-list">
+          <li>PEFT methods should be compared by target-retention trade-offs, not target score alone.</li>
+          <li>OFT often gives a strong frontier because its parameterization better preserves geometry.</li>
+          <li>PiSSA is a useful warning case: principal-component updates can severely disrupt general capabilities.</li>
+          <li>Activation geometry clarifies why raw movement is not equivalent to forgetting.</li>
+          <li>Interpolation turns final-checkpoint evaluation into a pathwise diagnosis.</li>
+        </ul>
+
+        <h2 id="resources">Code and resources</h2>
+
+        <p>
+          The release includes training and evaluation entrypoints, benchmark result tables, weight-space spectral analysis, CSD diagnostics, activation-geometry scripts, and interpolation / rewinding utilities.
+        </p>
+
+        <div class="resource-row">
+          <div>
+            <img class="paper-preview" src="static/images/paper-preview-01.png" alt="PEFT-Arena paper first page preview">
+          </div>
+          <div class="resource-box">
+            <p><strong>Repository contents.</strong></p>
+            <ul>
+              <li>Training and evaluation entrypoints for SFT and RLVR.</li>
+              <li>Benchmark result tables for target domains and general retention.</li>
+              <li>Weight-space geometry analysis scripts.</li>
+              <li>Activation-geometry and CSD diagnostics.</li>
+              <li>Interpolation and post-hoc rewinding utilities.</li>
+            </ul>
+<pre><code>bash setup_env.sh
 
 python run.py train sft ...
 python run.py train rl ...
 python run.py eval ...
 python run.py merge ...</code></pre>
+          </div>
         </div>
-      </div>
-      <div class="blog-callout">
-        <strong>Take-home message.</strong> PEFT evaluation should ask not only what improves, but also what is forgotten and why.
-      </div>
-    </section>
-  </article>
-</main>
 
-<section class="section section-muted" id="citation">
-  <div class="container is-max-desktop">
-    <div class="section-heading">
-      <p class="section-kicker">Reference</p>
-      <h2 class="title is-3 section-title">Citation</h2>
-    </div>
-    <div class="citation-card">
-      <pre><code>@misc{huang2026peftarena,
+        <h2 id="authors">Authors</h2>
+
+        <p class="authors-list">
+          Yangyi Huang<sup>1,&dagger;</sup>,
+          Ruotian Peng<sup>2,&dagger;</sup>,
+          Zeju Qiu<sup>3</sup>,
+          Jiale Kang<sup>1</sup>,
+          Yandong Wen<sup>2</sup>,
+          Bernhard Sch&ouml;lkopf<sup>3</sup>,
+          and Weiyang Liu<sup>1,3,*</sup>.
+        </p>
+        <p class="authors-affiliations">
+          <sup>1</sup>The Chinese University of Hong Kong &nbsp;
+          <sup>2</sup>Westlake University &nbsp;
+          <sup>3</sup>Max Planck Institute for Intelligent Systems, T&uuml;bingen.
+        </p>
+        <p class="authors-notes">
+          <sup>&dagger;</sup>Equal contribution. &nbsp;
+          <sup>*</sup>Corresponding author.
+        </p>
+
+        <h2 id="citation">Citation</h2>
+
+<pre><code>@misc{huang2026peftarena,
   title={PEFT-Arena: Understanding Parameter-Efficient Finetuning from a Stability-Plasticity Perspective},
   author={Yangyi Huang and Ruotian Peng and Zeju Qiu and Jiale Kang and Yandong Wen and Bernhard Sch{\"o}lkopf and Weiyang Liu},
   year={2026},
   url={https://spherelab.ai/PEFT-Arena}
 }</code></pre>
-    </div>
-  </div>
-</section>
 
+      </article>
+    </div>
+  </main>
+</div>
+<script>
+  (() => {
+    const toc = document.querySelector('#left-toc');
+    if (!toc) return;
+
+    const marker = toc.querySelector('.toc-active-marker');
+    const links = Array.from(toc.querySelectorAll('a[href^="#"]'));
+    const sections = links
+      .map((link) => {
+        const id = link.getAttribute('href').slice(1);
+        const section = document.getElementById(id);
+        return section ? { id, link, item: link.closest('.toc-item'), section } : null;
+      })
+      .filter(Boolean);
+
+    const setActive = (entry) => {
+      if (!entry || !entry.item) return;
+      sections.forEach(({ link, item }) => {
+        link.classList.remove('is-active');
+        link.removeAttribute('aria-current');
+        item?.classList.remove('is-active', 'is-marker-target');
+      });
+      entry.link.classList.add('is-active');
+      entry.link.setAttribute('aria-current', 'location');
+      entry.item.classList.add('is-active', 'is-marker-target');
+
+      if (marker) {
+        const itemRect = entry.item.getBoundingClientRect();
+        const tocRect = toc.getBoundingClientRect();
+        const markerY = itemRect.top - tocRect.top + toc.scrollTop + itemRect.height / 2;
+        marker.style.setProperty('--toc-active-marker-y', `${markerY}px`);
+      }
+    };
+
+    const updateActiveFromScroll = () => {
+      const probeY = window.innerHeight * 0.35;
+      let active = sections[0];
+      for (const entry of sections) {
+        const rect = entry.section.getBoundingClientRect();
+        if (rect.top <= probeY) active = entry;
+      }
+      setActive(active);
+    };
+
+    let ticking = false;
+    const requestUpdate = () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(() => {
+        updateActiveFromScroll();
+        ticking = false;
+      });
+    };
+
+    links.forEach((link) => {
+      link.addEventListener('click', () => {
+        const entry = sections.find(({ link: candidate }) => candidate === link);
+        setActive(entry);
+      });
+    });
+
+    window.addEventListener('scroll', requestUpdate, { passive: true });
+    window.addEventListener('resize', requestUpdate);
+    updateActiveFromScroll();
+  })();
+</script>
 </body>
 </html>

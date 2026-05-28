@@ -280,6 +280,25 @@ a:hover {
   color: var(--navy);
 }
 
+.blog-thesis {
+  color: var(--navy);
+  font-family: "Castoro", serif;
+  font-size: clamp(1.3rem, 2.4vw, 1.7rem);
+  line-height: 1.45;
+}
+
+.formula-callout {
+  border-left-color: var(--navy);
+  background: rgba(16, 37, 66, 0.06);
+}
+
+.formula-callout code {
+  padding: 0.08rem 0.26rem;
+  border-radius: 0.3rem;
+  background: rgba(16, 37, 66, 0.08);
+  color: var(--navy);
+}
+
 .blog-figure {
   margin: 1.5rem 0;
   overflow: hidden;
@@ -318,6 +337,36 @@ a:hover {
   display: grid;
   gap: 1rem;
   margin: 1.35rem 0;
+}
+
+.tldr-list,
+.lesson-list {
+  display: grid;
+  gap: 0.8rem;
+  margin: 1.1rem 0 1.35rem;
+  padding: 0;
+  list-style: none;
+}
+
+.tldr-list li,
+.lesson-list li {
+  position: relative;
+  padding-left: 1.35rem;
+  color: #2d3544;
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.tldr-list li::before,
+.lesson-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.78em;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 999px;
+  background: var(--teal);
 }
 
 .blog-grid-three {
@@ -430,6 +479,37 @@ a:hover {
 
 .blog-protocol-strip {
   margin-top: 1rem;
+}
+
+.metric-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 1.35rem 0;
+}
+
+.metric-list div {
+  padding: 1rem;
+  border: 1px solid rgba(216, 207, 191, 0.92);
+  border-radius: 1rem;
+  background: rgba(255, 253, 250, 0.72);
+}
+
+.metric-list strong,
+.metric-list span {
+  display: block;
+}
+
+.metric-list strong {
+  margin-bottom: 0.4rem;
+  color: var(--navy);
+  font-family: "Google Sans", sans-serif;
+}
+
+.metric-list span {
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.55;
 }
 
 .resource-row {
@@ -770,7 +850,8 @@ a:hover {
   .path-grid,
   .blog-grid-three,
   .blog-grid-two,
-  .resource-row {
+  .resource-row,
+  .metric-list {
     grid-template-columns: 1fr;
   }
 

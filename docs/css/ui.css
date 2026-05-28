@@ -1,0 +1,148 @@
+/* UI primitives extracted from common.css */
+
+@keyframes btn-spring {
+  0% {
+    transform: scale(0.96);
+  }
+  40% {
+    transform: scale(1.02);
+  }
+  70% {
+    transform: scale(0.99);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.btn {
+  -webkit-appearance: none;
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0 14px;
+  min-height: 36px;
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, var(--fg) 8%, transparent);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1;
+  text-decoration: none !important;
+  cursor: pointer;
+  transition: border-color 180ms ease, box-shadow 160ms ease, transform 120ms cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  transform: scale(1);
+}
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #000; /* overlay layer for animated tints */
+  opacity: 0;
+  transition: opacity 180ms ease;
+  pointer-events: none;
+  border-radius: inherit;
+}
+.btn:active,
+.btn.primary:active,
+.btn.secondary:active,
+.btn.ghost:active,
+.btn.plain:active {
+  transform: scale(0.96) !important;
+  transition: transform 120ms cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+.btn.btn-spring,
+.btn.primary.btn-spring,
+.btn.secondary.btn-spring,
+.btn.ghost.btn-spring,
+.btn.plain.btn-spring {
+  animation: btn-spring 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+  transition: border-color 180ms ease, box-shadow 160ms ease !important;
+}
+.btn[disabled], .btn.is-disabled { opacity: 0.6; cursor: not-allowed; }
+
+.btn.primary {
+  background: linear-gradient(180deg, #F3F2F2 0%, #E6E6E6 87.5%) !important;
+  border-radius: 100px;
+  border: none !important;
+  color: black !important;
+}
+.btn.primary:visited {
+  color: black !important;
+  opacity: 1 !important;
+}
+/* Exact hover and active styles for primary button */
+.btn.primary:hover { border: none !important; }
+.btn.primary:active { border: none !important; }
+.btn.primary:hover::before { opacity: 0.04; }
+.btn.primary:active::before { opacity: 0.08; }
+.darkmode .btn.primary { background: linear-gradient(180deg, #7a9fcd 5.17%, #6f93c1 23.1%, #6f93c1 76.9%, #7a9fcd 94.83%); }
+
+.btn.secondary {
+  background: linear-gradient(180deg, #FFFFFF 5.17%, #F6F6F6 22.41%, #F4F5F7 82.31%, #F6F7F9 94.83%);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+.btn.secondary, .btn.secondary:hover, .btn.secondary:visited { color: var(--fg) !important; }
+
+/* Exact hover and active styles for secondary (default) button */
+.btn.secondary:hover { border: 1px solid rgba(0, 0, 0, 0.14); }
+.btn.secondary:active { border: 1px solid rgba(0, 0, 0, 0.18); }
+.btn.secondary:hover::before { opacity: 0.02; }
+.btn.secondary:active::before { opacity: 0.05; }
+
+.btn.ghost {
+  background: transparent;
+  border-color: color-mix(in srgb, var(--fg) 12%, transparent);
+}
+
+/* Plain text button: looks like text, turns into a pill on hover/active */
+.btn.plain {
+  background: transparent;
+  border-color: transparent !important;
+  color: var(--fg);
+}
+.btn.plain, .btn.plain:hover, .btn.plain:visited { color: var(--fg) !important; }
+.btn.plain::before { display: none; }
+.btn.plain:hover, .btn.plain:focus-visible {
+  background: rgba(0, 0, 0, 0.05);
+}
+.btn.plain:active {
+  background: rgba(0, 0, 0, 0.08);
+}
+.darkmode .btn.plain:hover, .darkmode .btn.plain:focus-visible { background: rgba(255, 255, 255, 0.08); }
+.darkmode .btn.plain:active { background: rgba(255, 255, 255, 0.12); }
+
+/* Size variants */
+.btn.small, .btn.sm { min-height: 32px; padding: 0 12px; border-radius: 8px; }
+.btn.standard { min-height: 36px; padding: 0 14px; border-radius: 8px; }
+.btn.big, .btn.lg { font-size: 15px; min-height: 40px; padding: 0 18px; border-radius: 100px; }
+
+.input, input.input, input[type="text"], input[type="email"], input[type="search"], input[type="number"], input[type="url"], input[type="password"], textarea.input {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  padding: 0.7rem 0.8rem;
+  border-radius: 10px;
+  border: 1px solid color-mix(in srgb, var(--fg) 15%, transparent);
+  background: color-mix(in srgb, var(--bg) 96%, var(--fg) 4%);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+}
+.input:focus, input:focus, textarea:focus {
+  border-color: color-mix(in srgb, var(--blue) 50%, var(--fg) 50%);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--blue) 15%, transparent);
+}
+.input.invalid { border-color: var(--red); }
+
+.field { display: grid; gap: 0.35rem; }
+.field label { font-family: var(--font-sans); color: var(--fg2); font-size: 0.95rem; }
+.field .error { color: var(--red); font-size: 0.92rem; }
+
