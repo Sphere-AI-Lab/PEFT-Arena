@@ -263,11 +263,11 @@ peft_arena_release/
 If you find PEFT-Arena useful in your research, please cite:
 
 ```bibtex
-@article{peftarena2026,
+@article{huang2026peftarena,
       title={PEFT-Arena: Understanding Parameter-Efficient Finetuning from a Stability-Plasticity Perspective},
       author={Yangyi Huang and Ruotian Peng and Zeju Qiu and Jiale Kang and Yandong Wen and Bernhard Schölkopf and Weiyang Liu},
       journal={arXiv preprint arXiv:2605.28819},
-      year={2026},
+      year={2026}
 }
 ```
 
