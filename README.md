@@ -170,6 +170,29 @@ bash eval/eval_med.sh --checkpoint_path <ckpt>
 bash eval/eval_general.sh --checkpoint_path <ckpt>
 ```
 
+For Math500/AIME/AMC evaluation, `eval/eval_math.sh` defaults to a generic `cot`
+prompt wrapped with the model tokenizer chat template. To reproduce the
+Limit-of-RLVR/OpenR1 math evaluation prompt format, use the explicit boxed
+templates and disable the extra tokenizer wrapper:
+
+```bash
+# Qwen / ChatML format
+bash eval/eval_math.sh \
+  --checkpoint_path <qwen_ckpt> \
+  --prompt_type qwen-boxed \
+  --no_apply_chat_template
+
+# Llama instruction format
+bash eval/eval_math.sh \
+  --checkpoint_path <llama_ckpt> \
+  --prompt_type llama-boxed \
+  --no_apply_chat_template
+```
+
+The `qwen-boxed` and `llama-boxed` prompt templates already include the
+model-specific chat delimiters and generation prefix. Do not combine them with
+`--apply_chat_template`, otherwise the prompt will be wrapped twice.
+
 ### 4. Checkpoint export and merge
 
 Prepare a training checkpoint for evaluation:

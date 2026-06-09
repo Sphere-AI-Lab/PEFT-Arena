@@ -33,6 +33,7 @@ N_SAMPLING="16"
 MAX_TOKENS_PER_CALL="8192"
 GPU_MEMORY_UTILIZATION="0.7"
 MAX_MODEL_LEN="9216"
+APPLY_CHAT_TEMPLATE="true"
 
 while [[ $# -gt 0 ]]; do
     case $1 in
@@ -48,6 +49,8 @@ while [[ $# -gt 0 ]]; do
         --max_tokens_per_call) MAX_TOKENS_PER_CALL="$2"; shift 2 ;;
         --gpu_memory_utilization) GPU_MEMORY_UTILIZATION="$2"; shift 2 ;;
         --max_model_len) MAX_MODEL_LEN="$2"; shift 2 ;;
+        --apply_chat_template) APPLY_CHAT_TEMPLATE="true"; shift ;;
+        --no_apply_chat_template) APPLY_CHAT_TEMPLATE="false"; shift ;;
         *) echo "Unknown arg: $1"; exit 1 ;;
     esac
 done
@@ -86,11 +89,7 @@ resolve_output_dir() {
     local parent_name
     parent_name="$(basename "$(dirname "$requested")")"
     if [ "$base_name" = "$domain" ]; then
-        if [ "$parent_name" = "$model_name" ]; then
-            echo "$requested"
-        else
-            echo "$(dirname "$requested")/${model_name}/${domain}"
-        fi
+        echo "$requested"
         return
     fi
     if [ "$base_name" = "$model_name" ]; then
@@ -183,9 +182,11 @@ echo "  N_Sampling:  ${N_SAMPLING}"
 echo "  Max Tokens:  ${MAX_TOKENS_PER_CALL}"
 echo "  vLLM Mem:    ${GPU_MEMORY_UTILIZATION}"
 echo "  Model Len:   ${MAX_MODEL_LEN}"
+echo "  Chat Tmpl:   ${APPLY_CHAT_TEMPLATE}"
 echo "============================================"
 
-python "${MATH_EVAL_DIR}/math_eval.py" \
+MATH_EVAL_ARGS=(
+    "${MATH_EVAL_DIR}/math_eval.py"
     --model_name_or_path "${MODEL_PATH}" \
     --data_names "${DATA_NAMES}" \
     --output_dir "${OUTPUT_DIR}" \
@@ -199,8 +200,14 @@ python "${MATH_EVAL_DIR}/math_eval.py" \
     --gpu_memory_utilization "${GPU_MEMORY_UTILIZATION}" \
     --max_model_len "${MAX_MODEL_LEN}" \
     --use_vllm \
-    --save_outputs \
-    --apply_chat_template
+    --save_outputs
+)
+
+if [ "${APPLY_CHAT_TEMPLATE}" = "true" ]; then
+    MATH_EVAL_ARGS+=(--apply_chat_template)
+fi
+
+python "${MATH_EVAL_ARGS[@]}"
 
 echo "[PEFTArena] Math evaluation completed. Results saved to ${OUTPUT_DIR}"
 
