@@ -44,6 +44,8 @@ The paper reports experiments on `Qwen2.5-7B` and `Llama3.2-3B-Instruct`, compar
 - post-training with SFT and RLVR
 - evaluation on target-domain and general-retention benchmarks
 - spectral analysis and figure generation used in the paper
+- single-checkpoint CSD and activation-geometry diagnostics; see
+  [docs/geometry_diagnostics.md](docs/geometry_diagnostics.md)
 - Checkpoints and data
 
 ## Highlights
@@ -59,6 +61,9 @@ The paper reports experiments on `Qwen2.5-7B` and `Llama3.2-3B-Instruct`, compar
 - `train/`: SFT and RL training wrappers plus PEFT-Arena-owned trainer code
 - `eval/`: math, medical, and general evaluation pipelines
 - `tools/`: checkpoint preparation, merge, spectral analysis, and plotting
+- `tools/csd_single_checkpoint.py` and
+  `tools/activation_geometry_single_checkpoint.py`: lightweight geometry
+  diagnostics for one checkpoint
 - `third_party/math_eval` and `third_party/med_eval`: bundled target-domain evaluation code
 - `third_party/opencompass` and `third_party/verl`: external dependencies used by general evaluation and RL training
 - `docs/`: project website / GitHub Pages source
